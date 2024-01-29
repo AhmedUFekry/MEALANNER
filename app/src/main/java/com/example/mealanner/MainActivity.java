@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.mealanner.DataLayer.Model.DataModels.Categories;
 import com.example.mealanner.DataLayer.Model.DataModels.Countries;
 import com.example.mealanner.DataLayer.Model.DataModels.Ingrediants;
+import com.example.mealanner.DataLayer.Model.DataModels.Meals;
 import com.example.mealanner.DataLayer.Model.Services.Remote.NetworkCallBack;
 import com.example.mealanner.DataLayer.Model.Services.Remote.RemoteDataSourceImpl;
 import com.example.mealanner.DataLayer.Model.Services.Remote.Repository;
@@ -20,7 +21,8 @@ public class MainActivity extends AppCompatActivity implements NetworkCallBack {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Repository<Void> repository = RepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(Void.class));
-        repository.getDataFromAPI(MainActivity.this , 2);
+        repository.getDataFromAPI(MainActivity.this ,RepositoryImpl.MealID , "52903");
+
 
     }
 
@@ -37,6 +39,9 @@ public class MainActivity extends AppCompatActivity implements NetworkCallBack {
         } else if (result.getClass() == Ingrediants.class) {
             Ingrediants response = (Ingrediants) result;
             Log.i("TAG", "onSuccess: " + response.getMeals().get(2).getStrIngredient());
+        } else if (result.getClass() == Meals.class) {
+            Meals response = (Meals) result;
+            Log.i("TAG", "onSuccess: " + response.getMeals().get(0).getStrMeal());
         }
     }
 

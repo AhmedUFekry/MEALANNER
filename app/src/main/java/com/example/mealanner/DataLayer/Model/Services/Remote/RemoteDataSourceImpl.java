@@ -1,5 +1,7 @@
 package com.example.mealanner.DataLayer.Model.Services.Remote;
 
+import java.util.Arrays;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -11,6 +13,9 @@ public class RemoteDataSourceImpl<T> implements RemoteDataSource<T> {
     private final Api_service apiService;
     private static final String TAG = "NetworkService";
     private static RemoteDataSourceImpl<?> instance = null;
+
+
+
 
     private RemoteDataSourceImpl(Class<T> responseType) {
         Retrofit retrofit = new Retrofit.Builder()
@@ -28,7 +33,7 @@ public class RemoteDataSourceImpl<T> implements RemoteDataSource<T> {
     }
 
     @Override
-    public void makeNetworkCall(NetworkCallBack<T> networkInterface , int requestNumber) {
+    public void makeNetworkCall(NetworkCallBack<T> networkInterface, int requestNumber , String... filter) {
         Call<T> call;
         switch(requestNumber){
             case 1 :
@@ -39,6 +44,20 @@ public class RemoteDataSourceImpl<T> implements RemoteDataSource<T> {
                 break;
             case 3 :
                 call = (Call<T>) apiService.getAllIngrediants();
+                break;
+            case 4 :
+                call = (Call<T>) apiService.filterMealsByIngredientID(filter[0]);
+                break;
+            case 5 :
+                call = (Call<T>) apiService.filterMealsByCountryID(filter[0]);
+                break;
+            case 6 :
+                call = (Call<T>) apiService.filterMealsByCategoryID(filter[0]);
+                break;
+            case  7:
+                call = (Call<T>) apiService.getRandomMeal();
+            case  8:
+                call = (Call<T>) apiService.getMealByID(filter[0]);
                 break;
             default:
                 call = (Call<T>) apiService.getAllCountries();
