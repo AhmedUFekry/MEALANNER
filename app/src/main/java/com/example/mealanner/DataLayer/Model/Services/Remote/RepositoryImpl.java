@@ -2,6 +2,13 @@ package com.example.mealanner.DataLayer.Model.Services.Remote;
 
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
+import com.example.mealanner.DataLayer.Model.DataModels.Meal;
+import com.example.mealanner.DataLayer.Model.Services.Local.LocalDataSource;
+
+import java.util.List;
+
 public class RepositoryImpl<T> implements Repository<T> {
     //network Calls IDs
     public static final int CATEGORIES = 1 ;
@@ -15,19 +22,36 @@ public class RepositoryImpl<T> implements Repository<T> {
 
     //////////////////
     private final RemoteDataSource<T> remoteDataSource;
+    LocalDataSource localDataSource;
     private static RepositoryImpl<?> repo = null;
 
-    private RepositoryImpl(RemoteDataSource<T> remoteDataSource) {
+    private RepositoryImpl(RemoteDataSource<T> remoteDataSource , LocalDataSource localDataSource) {
         this.remoteDataSource = remoteDataSource;
+        this.localDataSource = localDataSource;
     }
 
-    public static <T> RepositoryImpl<T> getInstance(RemoteDataSource<T> remoteDataSource) {
+    public static <T> RepositoryImpl<T> getInstance(RemoteDataSource<T> remoteDataSource , LocalDataSource localDataSource) {
         if (repo == null)
-            repo = new RepositoryImpl<>(remoteDataSource);
+            repo = new RepositoryImpl<>(remoteDataSource , localDataSource);
         return (RepositoryImpl<T>) repo;
     }
 
-    public void getDataFromAPI(NetworkCallBack<T> networkCallBack ,int requestNumber , String... filter) {
+    @Override
+    public LiveData<List<Meal>> getStoredMeals() {
+        return localDataSource.getAllMeals();
+    }
+
+    @Override
+    public void insertMeal(Meal meal) {
+        localDataSource.insertMeal(meal);
+    }
+
+    @Override
+    public void deleteMeal(Meal meal) {
+        localDataSource.deleteMeal(meal);
+    }
+
+    public void getDataFromAPI(NetworkCallBack<T> networkCallBack , int requestNumber , String... filter) {
         if(filter.length != 0) {
             remoteDataSource.makeNetworkCall(networkCallBack, requestNumber, filter[0]);
         }else {

@@ -1,58 +1,401 @@
 package com.example.mealanner.DataLayer.Model.DataModels;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+import com.google.gson.annotations.Expose;
+
+@Entity(tableName = "MEALS")
+
 public class Meal {
+	@ColumnInfo(name = "days")
+	@Expose
+	public String days;
+	//@ColumnInfo(name = "strImageSource")
+	@Ignore
 	private Object strImageSource;
+	//@ColumnInfo(name = "strIngredient10")
+	@Ignore
 	private String strIngredient10;
+	//@ColumnInfo(name = "strIngredient12")
+	@Ignore
 	private String strIngredient12;
+	//@ColumnInfo(name = "strIngredient11")
+	@Ignore
 	private String strIngredient11;
+	//@ColumnInfo(name = "strIngredient14")
+	@Ignore
 	private String strIngredient14;
+	//@ColumnInfo(name = "strCategory")
+	@Ignore
 	private String strCategory;
+	//@ColumnInfo(name = "strIngredient13")
+	@Ignore
 	private String strIngredient13;
+//	@ColumnInfo(name = "strIngredient16")
+@Ignore
 	private Object strIngredient16;
+	//@ColumnInfo(name = "strIngredient15")
+	@Ignore
+
 	private String strIngredient15;
+	//@ColumnInfo(name = "strIngredient18")
+	@Ignore
 	private Object strIngredient18;
+	//@ColumnInfo(name = "strIngredient17")
+	@Ignore
 	private Object strIngredient17;
+	@ColumnInfo(name = "strArea")
 	private String strArea;
+	//@ColumnInfo(name = "strCreativeCommonsConfirmed")
+	@Ignore
 	private Object strCreativeCommonsConfirmed;
+
+	public String getDays() {
+		return days;
+	}
+
+	public void setDays(String days) {
+		this.days = days;
+	}
+
+	public void setStrImageSource(Object strImageSource) {
+		this.strImageSource = strImageSource;
+	}
+
+	public void setStrIngredient10(String strIngredient10) {
+		this.strIngredient10 = strIngredient10;
+	}
+
+	public void setStrIngredient12(String strIngredient12) {
+		this.strIngredient12 = strIngredient12;
+	}
+
+	public void setStrIngredient11(String strIngredient11) {
+		this.strIngredient11 = strIngredient11;
+	}
+
+	public void setStrIngredient14(String strIngredient14) {
+		this.strIngredient14 = strIngredient14;
+	}
+
+	public void setStrCategory(String strCategory) {
+		this.strCategory = strCategory;
+	}
+
+	public void setStrIngredient13(String strIngredient13) {
+		this.strIngredient13 = strIngredient13;
+	}
+
+	public void setStrIngredient16(Object strIngredient16) {
+		this.strIngredient16 = strIngredient16;
+	}
+
+	public void setStrIngredient15(String strIngredient15) {
+		this.strIngredient15 = strIngredient15;
+	}
+
+	public void setStrIngredient18(Object strIngredient18) {
+		this.strIngredient18 = strIngredient18;
+	}
+
+	public void setStrIngredient17(Object strIngredient17) {
+		this.strIngredient17 = strIngredient17;
+	}
+
+	public void setStrArea(String strArea) {
+		this.strArea = strArea;
+	}
+
+	public void setStrCreativeCommonsConfirmed(Object strCreativeCommonsConfirmed) {
+		this.strCreativeCommonsConfirmed = strCreativeCommonsConfirmed;
+	}
+
+	public void setStrIngredient19(Object strIngredient19) {
+		this.strIngredient19 = strIngredient19;
+	}
+
+	public void setStrTags(String strTags) {
+		this.strTags = strTags;
+	}
+
+	public void setIdMeal(String idMeal) {
+		this.idMeal = idMeal;
+	}
+
+	public void setStrInstructions(String strInstructions) {
+		this.strInstructions = strInstructions;
+	}
+
+	public void setStrIngredient1(String strIngredient1) {
+		this.strIngredient1 = strIngredient1;
+	}
+
+	public void setStrIngredient3(String strIngredient3) {
+		this.strIngredient3 = strIngredient3;
+	}
+
+	public void setStrIngredient2(String strIngredient2) {
+		this.strIngredient2 = strIngredient2;
+	}
+
+	public void setStrIngredient20(Object strIngredient20) {
+		this.strIngredient20 = strIngredient20;
+	}
+
+	public void setStrIngredient5(String strIngredient5) {
+		this.strIngredient5 = strIngredient5;
+	}
+
+	public void setStrIngredient4(String strIngredient4) {
+		this.strIngredient4 = strIngredient4;
+	}
+
+	public void setStrIngredient7(String strIngredient7) {
+		this.strIngredient7 = strIngredient7;
+	}
+
+	public void setStrIngredient6(String strIngredient6) {
+		this.strIngredient6 = strIngredient6;
+	}
+
+	public void setStrIngredient9(String strIngredient9) {
+		this.strIngredient9 = strIngredient9;
+	}
+
+	public void setStrIngredient8(String strIngredient8) {
+		this.strIngredient8 = strIngredient8;
+	}
+
+	public void setStrMealThumb(String strMealThumb) {
+		this.strMealThumb = strMealThumb;
+	}
+
+	public void setStrMeasure20(Object strMeasure20) {
+		this.strMeasure20 = strMeasure20;
+	}
+
+	public void setStrYoutube(String strYoutube) {
+		this.strYoutube = strYoutube;
+	}
+
+	public void setStrMeal(String strMeal) {
+		this.strMeal = strMeal;
+	}
+
+	public void setStrMeasure12(String strMeasure12) {
+		this.strMeasure12 = strMeasure12;
+	}
+
+	public void setStrMeasure13(String strMeasure13) {
+		this.strMeasure13 = strMeasure13;
+	}
+
+	public void setStrMeasure10(String strMeasure10) {
+		this.strMeasure10 = strMeasure10;
+	}
+
+	public void setStrMeasure11(String strMeasure11) {
+		this.strMeasure11 = strMeasure11;
+	}
+
+	public void setDateModified(Object dateModified) {
+		this.dateModified = dateModified;
+	}
+
+	public void setStrDrinkAlternate(Object strDrinkAlternate) {
+		this.strDrinkAlternate = strDrinkAlternate;
+	}
+
+	public void setStrSource(Object strSource) {
+		this.strSource = strSource;
+	}
+
+	public void setStrMeasure9(String strMeasure9) {
+		this.strMeasure9 = strMeasure9;
+	}
+
+	public void setStrMeasure7(String strMeasure7) {
+		this.strMeasure7 = strMeasure7;
+	}
+
+	public void setStrMeasure8(String strMeasure8) {
+		this.strMeasure8 = strMeasure8;
+	}
+
+	public void setStrMeasure5(String strMeasure5) {
+		this.strMeasure5 = strMeasure5;
+	}
+
+	public void setStrMeasure6(String strMeasure6) {
+		this.strMeasure6 = strMeasure6;
+	}
+
+	public void setStrMeasure3(String strMeasure3) {
+		this.strMeasure3 = strMeasure3;
+	}
+
+	public void setStrMeasure4(String strMeasure4) {
+		this.strMeasure4 = strMeasure4;
+	}
+
+	public void setStrMeasure1(String strMeasure1) {
+		this.strMeasure1 = strMeasure1;
+	}
+
+	public void setStrMeasure18(Object strMeasure18) {
+		this.strMeasure18 = strMeasure18;
+	}
+
+	public void setStrMeasure2(String strMeasure2) {
+		this.strMeasure2 = strMeasure2;
+	}
+
+	public void setStrMeasure19(Object strMeasure19) {
+		this.strMeasure19 = strMeasure19;
+	}
+
+	public void setStrMeasure16(Object strMeasure16) {
+		this.strMeasure16 = strMeasure16;
+	}
+
+	public void setStrMeasure17(Object strMeasure17) {
+		this.strMeasure17 = strMeasure17;
+	}
+
+	public void setStrMeasure14(String strMeasure14) {
+		this.strMeasure14 = strMeasure14;
+	}
+
+	public void setStrMeasure15(String strMeasure15) {
+		this.strMeasure15 = strMeasure15;
+	}
+
+	//@ColumnInfo(name = "strIngredient19")
+	@Ignore
 	private Object strIngredient19;
+	//@ColumnInfo(name = "strTags")
+	@Ignore
 	private String strTags;
+	@ColumnInfo(name = "idMeal")
+	@PrimaryKey
+	@NonNull
 	private String idMeal;
+	//@ColumnInfo(name = "strInstructions")
+	@Ignore
 	private String strInstructions;
+	//@ColumnInfo(name = "strIngredient1")
+
+	@Ignore
 	private String strIngredient1;
+	//@ColumnInfo(name = "strIngredient3")
+	@Ignore
 	private String strIngredient3;
+	//@ColumnInfo(name = "strIngredient2")
+	@Ignore
 	private String strIngredient2;
+	//@ColumnInfo(name = "strIngredient20")
+	@Ignore
 	private Object strIngredient20;
+	//@ColumnInfo(name = "strIngredient5")
+	@Ignore
 	private String strIngredient5;
+	//@ColumnInfo(name = "strIngredient4")
+	@Ignore
 	private String strIngredient4;
+	//@ColumnInfo(name = "strIngredient7")
+	@Ignore
 	private String strIngredient7;
+	//@ColumnInfo(name = "strIngredient6")
+	@Ignore
 	private String strIngredient6;
+	//@ColumnInfo(name = "strIngredient9")
+	@Ignore
 	private String strIngredient9;
+//	@ColumnInfo(name = "strIngredient8")
+@Ignore
 	private String strIngredient8;
+	@ColumnInfo(name = "strMealThumb")
 	private String strMealThumb;
+	//@ColumnInfo(name = "strMeasure20")
+	@Ignore
 	private Object strMeasure20;
+	//@ColumnInfo(name = "strYoutube")
+	@Ignore
 	private String strYoutube;
+	@ColumnInfo(name = "strMeal")
+
 	private String strMeal;
+	//@ColumnInfo(name = "strMeasure12")
+	@Ignore
 	private String strMeasure12;
+	//@ColumnInfo(name = "strMeasure13")
+
+	@Ignore
 	private String strMeasure13;
+	//@ColumnInfo(name = "strMeasure10")
+	@Ignore
+
 	private String strMeasure10;
+//	@ColumnInfo(name = "strMeasure11")
+@Ignore
 	private String strMeasure11;
+	//@ColumnInfo(name = "dateModified")
+	@Ignore
 	private Object dateModified;
+	//@ColumnInfo(name = "strDrinkAlternate")
+	@Ignore
 	private Object strDrinkAlternate;
+	//@ColumnInfo(name = "strSource")
+	@Ignore
 	private Object strSource;
+	//@ColumnInfo(name = "strMeasure9")
+	@Ignore
 	private String strMeasure9;
+	//@ColumnInfo(name = "strMeasure7")
+	@Ignore
 	private String strMeasure7;
+	//@ColumnInfo(name = "strMeasure8")
+	@Ignore
 	private String strMeasure8;
+	///@ColumnInfo(name = "strMeasure5")
+	@Ignore
 	private String strMeasure5;
+	//@ColumnInfo(name = "strMeasure6")
+	@Ignore
 	private String strMeasure6;
+	//@ColumnInfo(name = "strMeasure3")
+	@Ignore
 	private String strMeasure3;
+	//@ColumnInfo(name = "strMeasure4")
+	@Ignore
 	private String strMeasure4;
+	//@ColumnInfo(name = "strMeasure1")
+	@Ignore
 	private String strMeasure1;
+	//@ColumnInfo(name = "strMeasure18")
+	@Ignore
 	private Object strMeasure18;
+	//@ColumnInfo(name = "strMeasure2")
+	@Ignore
 	private String strMeasure2;
+	//@ColumnInfo(name = "strMeasure19")
+	@Ignore
 	private Object strMeasure19;
+	//@ColumnInfo(name = "strMeasure16")
+	@Ignore
 	private Object strMeasure16;
+	//@ColumnInfo(name = "strMeasure17")
+	@Ignore
 	private Object strMeasure17;
+	//@ColumnInfo(name = "strMeasure14")
+	@Ignore
 	private String strMeasure14;
+//	@ColumnInfo(name = "strMeasure15")
+@Ignore
 	private String strMeasure15;
 
 	public Object getStrImageSource(){
