@@ -1,4 +1,4 @@
-package com.example.mealanner;
+package com.example.mealanner.UILayer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +14,7 @@ import com.example.mealanner.DataLayer.Model.Services.Remote.NetworkCallBack;
 import com.example.mealanner.DataLayer.Model.Services.Remote.RemoteDataSourceImpl;
 import com.example.mealanner.DataLayer.Model.Services.Remote.Repository;
 import com.example.mealanner.DataLayer.Model.Services.Remote.RepositoryImpl;
+import com.example.mealanner.R;
 
 public class MainActivity extends AppCompatActivity implements NetworkCallBack {
     Repository<Void> repository;
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements NetworkCallBack {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         repository = RepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(Void.class), LocalDataSourceImpl.getInstance(MainActivity.this));
-        repository.getDataFromAPI(MainActivity.this ,RepositoryImpl.MealID , "52903");
+        repository.getDataFromAPI(MainActivity.this ,RepositoryImpl.CATEGORIES );
 
 
     }

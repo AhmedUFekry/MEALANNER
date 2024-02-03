@@ -15,7 +15,6 @@ public interface Api_service {
     Call<Categories> getAllCategories();
     @GET("list.php?a=list")
     Call<Countries> getAllCountries();
-
     @GET("list.php?i=list")
     Call<Ingrediants> getAllIngrediants();
     @GET("filter.php?")
