@@ -1,6 +1,9 @@
 package com.example.mealanner.UILayer;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import android.os.Bundle;
 
@@ -12,5 +15,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        NavController navController = Navigation.findNavController(Login.this,R.id.nav_host_fragment);
+        NavigationUI.setupActionBarWithNavController(Login.this, navController);
     }
 }
