@@ -57,4 +57,8 @@ dependencies {
     //Navigation Compenent
     implementation ("androidx.navigation:navigation-fragment:2.5.3")
     implementation ("androidx.navigation:navigation-ui:2.5.3")
+
+    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
 }

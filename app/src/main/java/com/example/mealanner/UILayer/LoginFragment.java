@@ -1,5 +1,6 @@
 package com.example.mealanner.UILayer;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,24 +14,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mealanner.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 
 public class LoginFragment extends Fragment {
 
     Button signUPbtn;
+    ImageButton googleBtn;
     Button loginBtn;
     TextView userName;
     TextView password;
     FirebaseAuth mAuth;
+    GoogleSignInClient client;
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -57,6 +68,8 @@ public class LoginFragment extends Fragment {
         userName = view.findViewById(R.id.usernameEditText);
         password  = view.findViewById(R.id.passwordEditText);
         loginBtn = view.findViewById(R.id.loginBtn);
+        googleBtn = view.findViewById(R.id.googleBtn);
+
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,5 +114,49 @@ public class LoginFragment extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_loginFragment_to_signUpFragment);
             }
         });
+
+        GoogleSignInOptions options = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("312524415690-cu2d951h4e41e5og05p68a4fusuq76t8.apps.googleusercontent.com")
+                .requestEmail()
+                .build();
+        client = GoogleSignIn.getClient(getContext().getApplicationContext(),options);
+        googleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i =  client.getSignInIntent();
+                startActivityForResult(i,1234);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1234){
+            Task<GoogleSignInAccount> task  = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(),null);
+                FirebaseAuth.getInstance().signInWithCredential(credential)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(getContext().getApplicationContext(), "Successfully added",Toast.LENGTH_SHORT);
+                                    Log.i("TAG", "google Added: ");
+
+
+                                }else {
+                                    Toast.makeText(getContext().getApplicationContext(), task.getException().getMessage(),Toast.LENGTH_SHORT);
+                                    Log.i("TAG", "google notadded: ");
+
+                                }
+
+                            }
+                        });
+            } catch (ApiException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }
