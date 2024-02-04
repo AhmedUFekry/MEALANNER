@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "312524415690",
+    "project_id": "mealanner",
+    "storage_bucket": "mealanner.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:312524415690:android:9fc1653ab8042f7ce8ca33",
+        "android_client_info": {
+          "package_name": "com.example.mealanner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRGtzrkVBcgSeFPbqVEiNAHom_vMDdGCo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
