@@ -1,4 +1,4 @@
-package com.example.mealanner.UILayer;
+package com.example.mealanner.UILayer.LoginActivity.SignUpFragment;
 
 import android.os.Bundle;
 

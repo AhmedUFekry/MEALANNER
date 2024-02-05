@@ -1,4 +1,4 @@
-package com.example.mealanner.UILayer;
+package com.example.mealanner.UILayer.LoginActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;

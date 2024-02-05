@@ -4,15 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UILayer.MainActivity">
+    tools:context=".UILayer.AppMainActivity.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+ <androidx.fragment.app.FragmentContainerView
+     android:id="@+id/appFragmentContainer"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"/>
+
+    <com.etebarian.meowbottomnavigation.MeowBottomNavigation
+        android:id="@+id/buttom_nav_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/appFragmentContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:mbn_backgroundBottomColor="#F3A635"
+        app:mbn_circleColor="#00FFFFFF"
+        app:mbn_countBackgroundColor="@color/cardview_shadow_end_color"
+        app:mbn_countTextColor="#00FFFFFF"
+        app:mbn_defaultIconColor="#90a4ae"
+        app:mbn_rippleColor="#2f424242"
+        app:mbn_selectedIconColor="#FFFFFFFF"
+        app:mbn_shadowColor="#1f212121" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

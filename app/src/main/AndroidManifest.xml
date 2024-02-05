@@ -15,10 +15,10 @@
         android:theme="@style/Theme.MEALANNER"
         tools:targetApi="31">
         <activity
-            android:name=".UILayer.Login"
+            android:name=".UILayer.LoginActivity.Login"
             android:exported="false" />
         <activity
-            android:name=".UILayer.splashscreen"
+            android:name=".UILayer.SplashScreenActivity.splashscreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UILayer.MainActivity"
+            android:name=".UILayer.AppMainActivity.MainActivity"
             android:exported="false"></activity>
     </application>
 

@@ -1,4 +1,4 @@
-package com.example.mealanner.UILayer;
+package com.example.mealanner.UILayer.SplashScreenActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.mealanner.R;
+import com.example.mealanner.UILayer.AppMainActivity.MainActivity;
 
 public class splashscreen extends AppCompatActivity {
     private static final int SPLASH_TIMEOUT = 3000;
@@ -21,7 +22,7 @@ public class splashscreen extends AppCompatActivity {
             @Override
             public void run() {
                 // Start the main activity after the splash timeout
-                Intent intent = new Intent(splashscreen.this, Login.class);
+                Intent intent = new Intent(splashscreen.this, MainActivity.class);
                 startActivity(intent);
                 finish();  // Close the splash activity to prevent going back to it
             }
