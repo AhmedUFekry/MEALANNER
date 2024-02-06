@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements NetworkCallBack {
 
 
 
-    Repository<Void> repository;
+    Repository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

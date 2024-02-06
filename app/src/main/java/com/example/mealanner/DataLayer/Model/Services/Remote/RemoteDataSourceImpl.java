@@ -56,6 +56,7 @@ public class RemoteDataSourceImpl<T> implements RemoteDataSource<T> {
                 break;
             case  7:
                 call = (Call<T>) apiService.getRandomMeal();
+                break;
             case  8:
                 call = (Call<T>) apiService.getMealByID(filter[0]);
                 break;
