@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="#000000">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:backgroundTint="#00FFFFFF"
+        app:cardBackgroundColor="#00FFFFFF"
+        app:cardCornerRadius="40dp">
+
+        <ImageView
+            android:id="@+id/countryImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
+
+
+        <TextView
+            android:id="@+id/countryNameTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="#000"
+            android:paddingStart="32dp"
+            android:text="TextView" />
+
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

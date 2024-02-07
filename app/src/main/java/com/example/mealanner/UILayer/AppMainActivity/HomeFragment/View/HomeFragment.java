@@ -11,9 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.mealanner.DataLayer.Model.DataModels.Countries;
 import com.example.mealanner.DataLayer.Model.DataModels.Meals;
 import com.example.mealanner.DataLayer.Model.Services.Local.LocalDataSourceImpl;
 import com.example.mealanner.DataLayer.Model.Services.Remote.NetworkCallBack;
@@ -30,6 +33,7 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
     TextView randomMealTextView;
     HomePresenter homePresenter;
     Repository repository;
+    RecyclerView countriesRC;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -54,9 +58,12 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
         super.onViewCreated(view, savedInstanceState);
         randomMealImageView = view.findViewById(R.id.randomMealimageView);
         randomMealTextView = view.findViewById(R.id.randomMealName);
+        countriesRC = view.findViewById(R.id.coutriesRecyclerView);
         repository = RepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(Void.class), LocalDataSourceImpl.getInstance(getContext().getApplicationContext()));
         homePresenter = new HomePresenter(repository , HomeFragment.this);
         homePresenter.getRandomMeal();
+        homePresenter.getCountries();
+
     }
 
     @Override
@@ -75,5 +82,13 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
         randomMealTextView.setText(result.getMeals().get(0).getStrMeal().toString());
         Glide.with(HomeFragment.this).load(result.getMeals().get(0).getStrMealThumb()).apply(new RequestOptions().override(400,200).placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.ic_launcher_foreground)).into(randomMealImageView);
 
+    }
+
+    @Override
+    public void showCountries(Countries result) {
+        Log.i("yala", "showCountries: " +result.getMeals().get(0).getStrArea());
+        CountriesRCAdapter countriesRCAdapter = new CountriesRCAdapter(getContext() ,result.getMeals());
+        countriesRC.setAdapter(countriesRCAdapter);
+        countriesRC.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
     }
 }
