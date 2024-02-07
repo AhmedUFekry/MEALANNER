@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mealanner.R;
+import com.example.mealanner.UILayer.AppMainActivity.MainActivity;
+import com.example.mealanner.UILayer.LoginActivity.Login;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -93,6 +95,9 @@ public class LoginFragment extends Fragment {
                                     Log.d("TAG", "signInWithEmail:success");
                                     Toast.makeText(getActivity().getApplicationContext(), "Authentication Succeded.",
                                             Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                                    startActivity(intent);
+                                    getActivity().finish();
                                     //FirebaseUser user = mAuth.getCurrentUser();
 
                                 } else {
@@ -142,8 +147,13 @@ public class LoginFragment extends Fragment {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
-                                    Toast.makeText(getContext().getApplicationContext(), "Successfully added",Toast.LENGTH_SHORT);
+
                                     Log.i("TAG", "google Added: ");
+                                    Toast.makeText(getActivity().getApplicationContext(), "Authentication Succeded.",
+                                            Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                                    startActivity(intent);
+                                    getActivity().finish();
 
 
                                 }else {
