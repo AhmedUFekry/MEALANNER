@@ -1,5 +1,6 @@
 package com.example.mealanner.UILayer.AppMainActivity.HomeFragment.Presenter;
 
+import com.example.mealanner.DataLayer.Model.DataModels.Categories;
 import com.example.mealanner.DataLayer.Model.DataModels.Countries;
 import com.example.mealanner.DataLayer.Model.DataModels.Meals;
 import com.example.mealanner.DataLayer.Model.Services.Remote.NetworkCallBack;
@@ -20,6 +21,8 @@ public class HomePresenter implements NetworkCallBack {
 
     public void getRandomMeal(){ repository.getDataFromAPI(HomePresenter.this, RepositoryImpl.RANDOMMEAL);}
     public void getCountries(){ repository.getDataFromAPI(HomePresenter.this, RepositoryImpl.COUNTRIES);}
+    public void getCategories(){ repository.getDataFromAPI(HomePresenter.this, RepositoryImpl.CATEGORIES);}
+
     @Override
     public void onSuccess(Object result) {
         if (result.getClass() == Meals.class) {
@@ -28,6 +31,9 @@ public class HomePresenter implements NetworkCallBack {
         }else if (result.getClass() == Countries.class) {
             Countries response = (Countries) result;
             _view.showCountries(response);
+        }else if (result.getClass() == Categories.class) {
+            Categories response = (Categories) result;
+            _view.showCategories(response);
         }
 
     }

@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NetworkCallBack {
     public void onSuccess(Object result) {
         if (result.getClass() == Categories.class) {
             Categories response = (Categories) result;
-            Log.i("TAG", "onSuccess: " + response.getCategories().get(2).getStrCategory());
+//            Log.i("TAG", "onSuccess: " + response.getCategories().get(2).getStrCategory());
         } else if (result.getClass() == Countries.class) {
             Countries response = (Countries) result;
             Log.i("TAG", "onSuccess: " + response.getMeals().get(2).getStrArea());

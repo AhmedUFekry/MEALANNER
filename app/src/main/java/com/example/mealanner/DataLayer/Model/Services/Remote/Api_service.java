@@ -11,7 +11,7 @@ import retrofit2.http.Query;
 
 
 public interface Api_service {
-    @GET("list.php?c=list")
+    @GET("categories.php")
     Call<Categories> getAllCategories();
     @GET("list.php?a=list")
     Call<Countries> getAllCountries();

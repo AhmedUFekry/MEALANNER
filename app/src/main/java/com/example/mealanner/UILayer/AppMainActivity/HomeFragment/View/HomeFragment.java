@@ -13,9 +13,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.mealanner.DataLayer.Model.DataModels.Categories;
 import com.example.mealanner.DataLayer.Model.DataModels.Countries;
 import com.example.mealanner.DataLayer.Model.DataModels.Meals;
 import com.example.mealanner.DataLayer.Model.Services.Local.LocalDataSourceImpl;
@@ -34,6 +36,8 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
     HomePresenter homePresenter;
     Repository repository;
     RecyclerView countriesRC;
+    RecyclerView categoriesRC;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -59,10 +63,12 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
         randomMealImageView = view.findViewById(R.id.randomMealimageView);
         randomMealTextView = view.findViewById(R.id.randomMealName);
         countriesRC = view.findViewById(R.id.coutriesRecyclerView);
+        categoriesRC = view.findViewById(R.id.categoriesRecyclerView);
         repository = RepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(Void.class), LocalDataSourceImpl.getInstance(getContext().getApplicationContext()));
         homePresenter = new HomePresenter(repository , HomeFragment.this);
         homePresenter.getRandomMeal();
         homePresenter.getCountries();
+        homePresenter.getCategories();
 
     }
 
@@ -90,5 +96,13 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
         CountriesRCAdapter countriesRCAdapter = new CountriesRCAdapter(getContext() ,result.getMeals());
         countriesRC.setAdapter(countriesRCAdapter);
         countriesRC.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+    }
+
+    @Override
+    public void showCategories(Categories result) {
+        CategoriesRCAdapter categoriesRCAdapter = new CategoriesRCAdapter(getContext() ,result.getCategories());
+        categoriesRC.setAdapter(categoriesRCAdapter);
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        categoriesRC.setLayoutManager(gridLayoutManager);
     }
 }
