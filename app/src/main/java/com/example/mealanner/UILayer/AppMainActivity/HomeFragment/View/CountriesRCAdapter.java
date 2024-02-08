@@ -18,8 +18,15 @@ import java.util.List;
 
 public class CountriesRCAdapter extends RecyclerView.Adapter<CountriesRCAdapter.CountryViewHolder> {
     private Context context;
-    private List<Country> countries;
+    private static List<Country> countries;
+    private OnContryClickListener onItemClickListener;
 
+    public void setOnItemClickListener(OnContryClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+    public interface OnContryClickListener {
+        void onItemClick(Country country);
+    }
     public CountriesRCAdapter(Context context, List<Country> countries) {
         this.context = context;
         this.countries = countries;
@@ -50,7 +57,7 @@ public class CountriesRCAdapter extends RecyclerView.Adapter<CountriesRCAdapter.
 
     }
 
-    public static class CountryViewHolder extends RecyclerView.ViewHolder{
+    public class CountryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
          TextView countryName;
          ImageView countryImage;
 
@@ -58,6 +65,14 @@ public class CountriesRCAdapter extends RecyclerView.Adapter<CountriesRCAdapter.
             super(itemView);
             countryName = itemView.findViewById(R.id.countryNameTV);
             countryImage = itemView.findViewById(R.id.countryImageView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(countries.get(getAdapterPosition()));
+            }
         }
     }
 }

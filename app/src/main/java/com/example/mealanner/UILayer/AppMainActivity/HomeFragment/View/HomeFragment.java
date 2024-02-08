@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +22,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.mealanner.DataLayer.Model.DataModels.Categories;
 import com.example.mealanner.DataLayer.Model.DataModels.Category;
 import com.example.mealanner.DataLayer.Model.DataModels.Countries;
+import com.example.mealanner.DataLayer.Model.DataModels.Country;
 import com.example.mealanner.DataLayer.Model.DataModels.Meals;
 import com.example.mealanner.DataLayer.Model.Services.Local.LocalDataSourceImpl;
 import com.example.mealanner.DataLayer.Model.Services.Remote.NetworkCallBack;
@@ -31,7 +31,6 @@ import com.example.mealanner.DataLayer.Model.Services.Remote.Repository;
 import com.example.mealanner.DataLayer.Model.Services.Remote.RepositoryImpl;
 import com.example.mealanner.R;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.Presenter.HomePresenter;
-import com.example.mealanner.UILayer.AppMainActivity.MainActivity;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsFragment;
 
 public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
@@ -115,12 +114,28 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
             }
         });
     }
-    public void onItemClick(Category category) {
+    public void onCategoryClick(Category category) {
         // Handle item click here, e.g., show details, navigate to another screen, etc.
         MealsFragment mealsFragment = new MealsFragment();
         // Pass any necessary data to the MealsFragment using arguments
         Bundle bundle = new Bundle();
         bundle.putString("categoryName", category.getStrCategory());
+        bundle.putInt("filterType",1);
+        mealsFragment.setArguments(bundle);
+        // Replace the current fragment with the MealsFragment
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.appFragmentContainer, mealsFragment);
+        transaction.addToBackStack(null); // Optional: Add the transaction to the back stack
+        transaction.commit();
+
+    }
+    public void onCountryClick(Country country) {
+        // Handle item click here, e.g., show details, navigate to another screen, etc.
+        MealsFragment mealsFragment = new MealsFragment();
+        // Pass any necessary data to the MealsFragment using arguments
+        Bundle bundle = new Bundle();
+        bundle.putString("categoryName", country.getStrArea());
+        bundle.putInt("filterType",1);
         mealsFragment.setArguments(bundle);
         // Replace the current fragment with the MealsFragment
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
@@ -134,6 +149,7 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
     public void showCountries(Countries result) {
         Log.i("yala", "showCountries: " +result.getMeals().get(0).getStrArea());
         CountriesRCAdapter countriesRCAdapter = new CountriesRCAdapter(getContext() ,result.getMeals());
+        countriesRCAdapter.setOnItemClickListener(country -> onCountryClick(country));
         countriesRC.setAdapter(countriesRCAdapter);
         countriesRC.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
     }
@@ -141,7 +157,7 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
     @Override
     public void showCategories(Categories result) {
         CategoriesRCAdapter categoriesRCAdapter = new CategoriesRCAdapter(getContext() ,result.getCategories());
-        categoriesRCAdapter.setOnItemClickListener(this::onItemClick);
+        categoriesRCAdapter.setOnItemClickListener(category -> onCategoryClick(category));
         categoriesRC.setAdapter(categoriesRCAdapter);
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         categoriesRC.setLayoutManager(gridLayoutManager);

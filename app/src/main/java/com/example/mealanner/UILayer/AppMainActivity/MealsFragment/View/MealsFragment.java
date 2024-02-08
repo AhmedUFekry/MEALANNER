@@ -69,7 +69,11 @@ public class MealsFragment extends Fragment implements NetworkCallBack ,MealsVie
         filterTV = view.findViewById(R.id.filterTV);
         repository = RepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(Void.class), LocalDataSourceImpl.getInstance(getContext().getApplicationContext()));
         mealsPresenter = new MealsPresenter(repository , MealsFragment.this);
-        mealsPresenter.getMealsByCategories(filterId);
+        if(getArguments().getInt("filterType") == 2) {
+            mealsPresenter.getMealsByCategories(filterId);
+        } else if (getArguments().getInt("filterType") == 1) {
+            mealsPresenter.getMealsByCountries(filterId);
+        }
         filterTV.setText(filterId);
         isSaved = false;
     }

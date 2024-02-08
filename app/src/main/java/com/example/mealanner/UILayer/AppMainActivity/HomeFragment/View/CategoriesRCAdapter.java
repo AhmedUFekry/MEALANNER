@@ -1,7 +1,6 @@
 package com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.mealanner.DataLayer.Model.DataModels.Category;
-import com.example.mealanner.DataLayer.Model.DataModels.Country;
 import com.example.mealanner.R;
 
 import java.util.List;
