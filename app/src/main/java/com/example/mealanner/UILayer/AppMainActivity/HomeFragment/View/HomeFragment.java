@@ -8,10 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.mealanner.DataLayer.Model.DataModels.Categories;
+import com.example.mealanner.DataLayer.Model.DataModels.Category;
 import com.example.mealanner.DataLayer.Model.DataModels.Countries;
 import com.example.mealanner.DataLayer.Model.DataModels.Meals;
 import com.example.mealanner.DataLayer.Model.Services.Local.LocalDataSourceImpl;
@@ -29,6 +32,7 @@ import com.example.mealanner.DataLayer.Model.Services.Remote.RepositoryImpl;
 import com.example.mealanner.R;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.Presenter.HomePresenter;
 import com.example.mealanner.UILayer.AppMainActivity.MainActivity;
+import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsFragment;
 
 public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
 
@@ -111,6 +115,20 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
             }
         });
     }
+    public void onItemClick(Category category) {
+        // Handle item click here, e.g., show details, navigate to another screen, etc.
+        MealsFragment mealsFragment = new MealsFragment();
+        // Pass any necessary data to the MealsFragment using arguments
+        Bundle bundle = new Bundle();
+        bundle.putString("categoryName", category.getStrCategory());
+        mealsFragment.setArguments(bundle);
+        // Replace the current fragment with the MealsFragment
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.appFragmentContainer, mealsFragment);
+        transaction.addToBackStack(null); // Optional: Add the transaction to the back stack
+        transaction.commit();
+
+    }
 
     @Override
     public void showCountries(Countries result) {
@@ -123,6 +141,7 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
     @Override
     public void showCategories(Categories result) {
         CategoriesRCAdapter categoriesRCAdapter = new CategoriesRCAdapter(getContext() ,result.getCategories());
+        categoriesRCAdapter.setOnItemClickListener(this::onItemClick);
         categoriesRC.setAdapter(categoriesRCAdapter);
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         categoriesRC.setLayoutManager(gridLayoutManager);

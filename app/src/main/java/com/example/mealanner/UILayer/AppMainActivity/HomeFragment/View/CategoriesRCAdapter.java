@@ -19,9 +19,18 @@ import com.example.mealanner.R;
 
 import java.util.List;
 
-public class CategoriesRCAdapter extends RecyclerView.Adapter<CategoriesRCAdapter.CategoryViewHolder>{
+public class CategoriesRCAdapter extends RecyclerView.Adapter<CategoriesRCAdapter.CategoryViewHolder> {
+
     private Context context;
     private List<Category> categoriesy;
+    private OnItemClickListener onItemClickListener;
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Category category);
+    }
 
     public CategoriesRCAdapter(Context context, List<Category> categoriesy) {
         this.context = context;
@@ -30,30 +39,38 @@ public class CategoriesRCAdapter extends RecyclerView.Adapter<CategoriesRCAdapte
 
     @NonNull
     @Override
-    public CategoriesRCAdapter.CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.categories_recycler_view_row,parent,false);
-        CategoriesRCAdapter.CategoryViewHolder viewHolderr = new CategoriesRCAdapter.CategoryViewHolder(view);
-        return viewHolderr;
+        View view = inflater.inflate(R.layout.categories_recycler_view_row, parent, false);
+        return new CategoryViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoriesRCAdapter.CategoryViewHolder holder, int position) {
-        String catName = categoriesy.get(position).getStrCategory().toString().toLowerCase();
-         Log.i("image", "onBindViewHolder: " + categoriesy.get(position).getStrCategoryThumb());
-        Glide.with(context).load(categoriesy.get(position).getStrCategoryThumb()).apply(new RequestOptions().override(200,200).placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.ic_launcher_foreground)).into(holder.caregoryImage);
-        if (holder.caregoryImage != null) {
-            holder.categoryName.setText(catName);
+    public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
+        Category category = categoriesy.get(position);
+
+        // Null check for Glide load
+        if (category.getStrCategoryThumb() != null) {
+            Glide.with(holder.itemView.getContext())
+                    .load(category.getStrCategoryThumb())
+                    .apply(new RequestOptions().override(200, 200)
+                            .placeholder(R.drawable.ic_launcher_foreground)
+                            .error(R.drawable.ic_launcher_foreground))
+                    .into(holder.caregoryImage);
         }
+
+        // Set category name
+        holder.categoryName.setText(category.getStrCategory());
     }
 
     @Override
     public int getItemCount() {
         return categoriesy.size();
-
     }
 
-    public static class CategoryViewHolder extends RecyclerView.ViewHolder{
+
+
+    public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView categoryName;
         ImageView caregoryImage;
 
@@ -61,6 +78,14 @@ public class CategoriesRCAdapter extends RecyclerView.Adapter<CategoriesRCAdapte
             super(itemView);
             categoryName = itemView.findViewById(R.id.categoryNameTV);
             caregoryImage = itemView.findViewById(R.id.categoryImageView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(categoriesy.get(getAdapterPosition()));
+            }
         }
     }
 }
