@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +38,8 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
     Repository repository;
     RecyclerView countriesRC;
     RecyclerView categoriesRC;
+    ImageButton addToFavBtn;
+    boolean isSaved;
 
 
     public HomeFragment() {
@@ -64,13 +67,17 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
         randomMealTextView = view.findViewById(R.id.randomMealName);
         countriesRC = view.findViewById(R.id.coutriesRecyclerView);
         categoriesRC = view.findViewById(R.id.categoriesRecyclerView);
+        addToFavBtn = view.findViewById(R.id.addToFavimageButton);
         repository = RepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(Void.class), LocalDataSourceImpl.getInstance(getContext().getApplicationContext()));
         homePresenter = new HomePresenter(repository , HomeFragment.this);
         homePresenter.getRandomMeal();
         homePresenter.getCountries();
         homePresenter.getCategories();
+        isSaved = false;
+
 
     }
+
 
     @Override
     public void onSuccess(Object result) {
@@ -87,7 +94,22 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
         Log.i("TAG", "showRandomMeal: " + result.getMeals().get(0).getStrMeal().toString());
         randomMealTextView.setText(result.getMeals().get(0).getStrMeal().toString());
         Glide.with(HomeFragment.this).load(result.getMeals().get(0).getStrMealThumb()).apply(new RequestOptions().override(400,200).placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.ic_launcher_foreground)).into(randomMealImageView);
-
+        addToFavBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isSaved == false) {
+                    homePresenter.saveToLocal(result.getMeals().get(0));
+                    addToFavBtn.setImageResource(android.R.drawable.btn_star_big_on);
+                    Log.i("TAG", "onSuccess: " + result.getMeals().get(0).getStrMeal());
+                    isSaved = true;
+                }else {
+                    isSaved = false;
+                    addToFavBtn.setImageResource(android.R.drawable.btn_star_big_off);
+                    homePresenter.deleteFromLocal(result.getMeals().get(0));
+                    Log.i("TAG", "onSuccess: " + result.getMeals().get(0).getStrMeal());
+                }
+            }
+        });
     }
 
     @Override

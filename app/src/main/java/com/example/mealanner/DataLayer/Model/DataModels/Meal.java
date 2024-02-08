@@ -14,6 +14,9 @@ public class Meal {
 	@ColumnInfo(name = "days")
 	@Expose
 	public String days;
+	@ColumnInfo(name = "userID")
+	@Expose
+	public String userID;
 	//@ColumnInfo(name = "strImageSource")
 	@Ignore
 	private Object strImageSource;

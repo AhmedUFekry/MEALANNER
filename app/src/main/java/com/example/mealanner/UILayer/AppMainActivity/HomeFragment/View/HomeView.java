@@ -10,4 +10,5 @@ public interface HomeView {
     void showCountries(Countries result);
     void showCategories(Categories result);
 
+
 }
