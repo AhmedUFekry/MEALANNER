@@ -10,13 +10,13 @@ import com.example.mealanner.DataLayer.Model.DataModels.Meal;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Flowable;
-import io.reactivex.rxjava3.core.Observable;
 
 @Dao
 public interface MealsDAO {
-    @Query("SELECT * FROM meals")
-    Flowable<List<Meal>> getAllMeals();
+    @Query("SELECT * FROM MEALS WHERE userID = :userIDD")
+    LiveData<List<Meal>> getAllMeals(String userIDD);
 
     @Insert
     void insertMeal(Meal meal);

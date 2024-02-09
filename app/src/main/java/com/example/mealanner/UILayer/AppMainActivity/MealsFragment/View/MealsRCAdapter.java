@@ -1,6 +1,7 @@
 package com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View;
 
 import android.content.Context;
+import android.text.style.AlignmentSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -23,6 +25,8 @@ import com.example.mealanner.DataLayer.Model.Services.Remote.RepositoryImpl;
 import com.example.mealanner.R;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.Presenter.HomePresenter;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.Presenter.MealsPresenter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +38,18 @@ public class MealsRCAdapter extends RecyclerView.Adapter<MealsRCAdapter.MealsVie
     MealsPresenter mealsPresenter;
     RepositoryImpl repository;
     boolean isSaved;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    FirebaseUser user = auth.getCurrentUser();
 
     public MealsRCAdapter(Context context, List<Meal> meals) {
         this.context = context;
         this.meals = meals;
          repository = RepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(Void.class), LocalDataSourceImpl.getInstance(context));
          mealsPresenter = new MealsPresenter(repository, this);
-        //mealsFragment.mealsPresenter.getFromLocal();
+
+    }
+    public void setList(List<Meal> mealsList){
+        this.meals = mealsList;
     }
 
     @NonNull
@@ -61,7 +70,7 @@ public class MealsRCAdapter extends RecyclerView.Adapter<MealsRCAdapter.MealsVie
         if (holder.mealImage != null) {
             holder.mealName.setText(mealName);
         }
-        if(mealsFromLocal.size() != 0) {
+       /* if(mealsFromLocal.size() != 0) {
             for (int i = 0; i < mealsFromLocal.size(); i++) {
                 Log.i("TAG", "checking DataBase ");
                 if (meals.get(position).getIdMeal() == mealsFromLocal.get(i).getIdMeal()) {
@@ -69,7 +78,7 @@ public class MealsRCAdapter extends RecyclerView.Adapter<MealsRCAdapter.MealsVie
                     holder.favBtn.setImageResource(android.R.drawable.btn_star_big_on);
                 }
             }
-        }
+        }*/
         holder.favBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,13 +103,7 @@ public class MealsRCAdapter extends RecyclerView.Adapter<MealsRCAdapter.MealsVie
         return meals.size();
     }
 
-    public void getMealsFromLocal(List<Meal> localMeals) {
-        mealsFromLocal = new ArrayList<>();
-       // Log.i("TAG", "Local Meals Size " + localMeals.size());
-        if(localMeals != null)
-        mealsFromLocal.addAll(localMeals);
 
-    }
 
     @Override
     public void showMealsByCategory(Meals result) {
@@ -109,6 +112,11 @@ public class MealsRCAdapter extends RecyclerView.Adapter<MealsRCAdapter.MealsVie
 
     @Override
     public void showMealsByCountry(Meals result) {
+
+    }
+
+    @Override
+    public void showSavedMeals(LiveData<List<Meal>> meals) {
 
     }
 

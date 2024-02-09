@@ -11,8 +11,8 @@ import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Observable;
 
 public interface LocalDataSource {
-    Completable insertMeal(Meal meal);
-    Completable deleteMeal(Meal meal);
-    Flowable<List<Meal>> getAllMeals();
+    void insertMeal(Meal meal);
+    void deleteMeal(Meal meal);
+    LiveData<List<Meal>> getAllMeals(String userID);
 
 }

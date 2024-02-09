@@ -103,13 +103,13 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
                 if (isSaved == false) {
                     homePresenter.saveToLocal(result.getMeals().get(0));
                     addToFavBtn.setImageResource(android.R.drawable.btn_star_big_on);
-                    Log.i("TAG", "onSuccess: " + result.getMeals().get(0).getStrMeal());
+                    Log.i("TAG", "added to local: " + result.getMeals().get(0).getStrMeal());
                     isSaved = true;
                 }else {
                     isSaved = false;
                     addToFavBtn.setImageResource(android.R.drawable.btn_star_big_off);
                     homePresenter.deleteFromLocal(result.getMeals().get(0));
-                    Log.i("TAG", "onSuccess: " + result.getMeals().get(0).getStrMeal());
+                    Log.i("TAG", "removed from local: " + result.getMeals().get(0).getStrMeal());
                 }
             }
         });
@@ -120,7 +120,7 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
         // Pass any necessary data to the MealsFragment using arguments
         Bundle bundle = new Bundle();
         bundle.putString("categoryName", category.getStrCategory());
-        bundle.putString("filterType","cat");
+        bundle.putString("filterType","cate");
         mealsFragment.setArguments(bundle);
         // Replace the current fragment with the MealsFragment
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
@@ -135,7 +135,7 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
         // Pass any necessary data to the MealsFragment using arguments
         Bundle bundle = new Bundle();
         bundle.putString("categoryName", country.getStrArea());
-        bundle.putString("filterType","con");
+        bundle.putString("filterType","cont");
         mealsFragment.setArguments(bundle);
         // Replace the current fragment with the MealsFragment
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.mealanner.DataLayer.Model.DataModels.Meal;
 import com.example.mealanner.DataLayer.Model.DataModels.Meals;
 import com.example.mealanner.DataLayer.Model.Services.Local.LocalDataSourceImpl;
 import com.example.mealanner.DataLayer.Model.Services.Remote.NetworkCallBack;
@@ -26,6 +28,8 @@ import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.Presenter.Home
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.CategoriesRCAdapter;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.HomeFragment;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.Presenter.MealsPresenter;
+
+import java.util.List;
 
 
 public class MealsFragment extends Fragment implements MealsView{
@@ -69,40 +73,27 @@ public class MealsFragment extends Fragment implements MealsView{
         filterTV = view.findViewById(R.id.filterTV);
         repository = RepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(Void.class), LocalDataSourceImpl.getInstance(getContext().getApplicationContext()));
         mealsPresenter = new MealsPresenter(repository , MealsFragment.this);
-        if(getArguments().getString("filterType") == "cat") {
+        filterTV.setText(filterId);
+        //mealsPresenter.getMealsByCategories(filterId);
+        if(getArguments().getString("filterType") == "cate") {
             mealsPresenter.getMealsByCategories(filterId);
-        } else if(getArguments().getString("filterType") == "con") {
+        } else if(getArguments().getString("filterType") == "cont") {
             mealsPresenter.getMealsByCountries(filterId);
         }
         Log.i("TAG", "filter key : " + filterId);
 
-        filterTV.setText(filterId);
+        //filterTV.setText(filterId);
         isSaved = false;
     }
 
 
     @Override
     public void showMealsByCategory(Meals result) {
-        /*addToFavBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isSaved == false) {
-                    homePresenter.saveToLocal(result.getMeals().get(0));
-                    addToFavBtn.setImageResource(android.R.drawable.btn_star_big_on);
-                    Log.i("TAG", "onSuccess: " + result.getMeals().get(0).getStrMeal());
-                    isSaved = true;
-                }else {
-                    isSaved = false;
-                    addToFavBtn.setImageResource(android.R.drawable.btn_star_big_off);
-                    homePresenter.deleteFromLocal(result.getMeals().get(0));
-                    Log.i("TAG", "onSuccess: " + result.getMeals().get(0).getStrMeal());
-                }
-            }
-        });*/
         Log.i("TAG", "showMealsByCategory: " + result.getMeals().size() );
         if(result.getMeals().size() != 0) {
+            Log.i("TAG", "showMealsByCategory: " + result.getMeals().size() );
             MealsRCAdapter mealsRCAdapter = new MealsRCAdapter(getContext(), result.getMeals());
-             mealsRCAdapter.getMealsFromLocal(mealsPresenter.getFromLocal());
+            //mealsRCAdapter.getMealsFromLocal(mealsPresenter.getFromLocal());
             mealsRC.setAdapter(mealsRCAdapter);
             StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
             mealsRC.setLayoutManager(gridLayoutManager);
@@ -112,28 +103,16 @@ public class MealsFragment extends Fragment implements MealsView{
 
     @Override
     public void showMealsByCountry(Meals result) {
-        /*addToFavBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isSaved == false) {
-                    homePresenter.saveToLocal(result.getMeals().get(0));
-                    addToFavBtn.setImageResource(android.R.drawable.btn_star_big_on);
-                    Log.i("TAG", "onSuccess: " + result.getMeals().get(0).getStrMeal());
-                    isSaved = true;
-                }else {
-                    isSaved = false;
-                    addToFavBtn.setImageResource(android.R.drawable.btn_star_big_off);
-                    homePresenter.deleteFromLocal(result.getMeals().get(0));
-                    Log.i("TAG", "onSuccess: " + result.getMeals().get(0).getStrMeal());
-                }
-            }
-        });*/
-
         MealsRCAdapter mealsRCAdapter = new MealsRCAdapter(getContext() ,result.getMeals());
-        mealsRCAdapter.getMealsFromLocal(mealsPresenter.getFromLocal());
+       // mealsRCAdapter.getMealsFromLocal(mealsPresenter.getFromLocal());
         mealsRC.setAdapter(mealsRCAdapter);
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mealsRC.setLayoutManager(gridLayoutManager);
+
+    }
+
+    @Override
+    public void showSavedMeals(LiveData<List<Meal>> meals) {
 
     }
 }

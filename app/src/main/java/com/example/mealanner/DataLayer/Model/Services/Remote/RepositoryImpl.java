@@ -1,5 +1,7 @@
 package com.example.mealanner.DataLayer.Model.Services.Remote;
 
+import androidx.lifecycle.LiveData;
+
 import com.example.mealanner.DataLayer.Model.DataModels.Meal;
 import com.example.mealanner.DataLayer.Model.Services.Local.LocalDataSource;
 
@@ -37,8 +39,8 @@ public class RepositoryImpl<T> implements Repository<T> {
     }
 
     @Override
-    public Flowable<List<Meal>> getStoredMeals() {
-        return localDataSource.getAllMeals();
+    public LiveData<List<Meal>> getStoredMeals(String userID) {
+        return localDataSource.getAllMeals(userID);
     }
 
     @Override

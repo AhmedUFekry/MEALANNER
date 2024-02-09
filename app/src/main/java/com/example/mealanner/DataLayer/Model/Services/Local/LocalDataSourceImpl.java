@@ -1,24 +1,20 @@
 package com.example.mealanner.DataLayer.Model.Services.Local;
 
 import android.content.Context;
-
+import androidx.lifecycle.LiveData;
 import com.example.mealanner.DataLayer.Model.DataModels.Meal;
-
 import java.util.List;
-
-import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.core.Flowable;
 
 public class LocalDataSourceImpl implements LocalDataSource {
     private AppDataBase db;
     private MealsDAO mealsDAO;
-    private Flowable<List<Meal>> meals;
+    public LiveData<List<Meal>> meals;
     private static LocalDataSourceImpl instance = null;
 
     private LocalDataSourceImpl(Context context) {
         db = AppDataBase.getInstance(context.getApplicationContext());
         mealsDAO = db.getMealDAO();
-        meals = mealsDAO.getAllMeals();
+        //meals = mealsDAO.getAllMeals();
     }
 
     public static LocalDataSourceImpl getInstance(Context context) {
@@ -28,15 +24,19 @@ public class LocalDataSourceImpl implements LocalDataSource {
         return instance;
     }
 
-    public Completable insertMeal(Meal meal) {
-        return Completable.fromAction(() -> mealsDAO.insertMeal(meal));
+    public void insertMeal(Meal meal) {
+        new Thread(() -> {
+            mealsDAO.insertMeal(meal);
+        }).start();
     }
 
-    public Completable deleteMeal(Meal meal) {
-        return Completable.fromAction(() -> mealsDAO.deletMeal(meal));
+    public void deleteMeal(Meal meal) {
+        new Thread(() -> {
+            mealsDAO.deletMeal(meal);
+        }).start();
     }
 
-    public Flowable<List<Meal>> getAllMeals() {
-        return meals;
+    public LiveData<List<Meal>> getAllMeals(String userID) {
+        return mealsDAO.getAllMeals(userID);
     }
 }

@@ -1,20 +1,20 @@
-package com.example.mealanner.UILayer.AppMainActivity.MealsFragment.Presenter;
+package com.example.mealanner.UILayer.AppMainActivity.FavouriteFragment;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LifecycleRegistry;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
-import com.example.mealanner.DataLayer.Model.DataModels.Categories;
-import com.example.mealanner.DataLayer.Model.DataModels.Countries;
 import com.example.mealanner.DataLayer.Model.DataModels.Meal;
 import com.example.mealanner.DataLayer.Model.DataModels.Meals;
 import com.example.mealanner.DataLayer.Model.Services.Remote.NetworkCallBack;
 import com.example.mealanner.DataLayer.Model.Services.Remote.Repository;
 import com.example.mealanner.DataLayer.Model.Services.Remote.RepositoryImpl;
-import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.Presenter.HomePresenter;
-import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.HomeView;
+import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.Presenter.MealsPresenter;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsRCAdapterInterface;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,11 +23,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Flowable;
-import io.reactivex.rxjava3.schedulers.Schedulers;
-
-public class MealsPresenter implements NetworkCallBack , MealsView {
+public class FavouritsPresenter implements NetworkCallBack, MealsView {
     Repository repository;
     MealsView _view;
     MealsRCAdapterInterface mealsRCAdapterInterface;
@@ -39,41 +35,40 @@ public class MealsPresenter implements NetworkCallBack , MealsView {
 
 
 
-    public MealsPresenter(Repository repository, MealsView _view) {
+
+    public FavouritsPresenter(Repository repository, FavouritFragment favouritFragment) {
         this.repository = repository;
         this._view = _view;
     }
 
     public void getMealsByCountries(String filterId){
         filter = COUNTRIES;
-        repository.getDataFromAPI(MealsPresenter.this, RepositoryImpl.MEALSBYCountryID , filterId);
+        repository.getDataFromAPI(FavouritsPresenter.this, RepositoryImpl.MEALSBYCountryID , filterId);
     }
     public void getMealsByCategories(String filterId){
         filter = CATEGORIES;
         Log.i("TAG", "getmealllllllllls  getMealsByCategories=  " + filterId);
-        repository.getDataFromAPI(MealsPresenter.this, RepositoryImpl.MEALSBYCategoryID, filterId);
+        repository.getDataFromAPI(FavouritsPresenter.this, RepositoryImpl.MEALSBYCategoryID, filterId);
     }
     public void saveToLocal(Meal meal){
         meal.userID = user.getUid();
         repository.insertMeal(meal);}
     public void deleteFromLocal(Meal meal){ repository.deleteMeal(meal);}
-    public List<Meal> getFromLocal(){
-            //mealsRCAdapterInterface.getMealsFromLocal((List<Meal>) repository.getStoredMeals());
+
+    public FavouritsPresenter(Repository repository, MealsView _view) {
+        this.repository = repository;
+        this._view = _view;
+    }
+
+
+
+    // ... rest of the code ...
+
+    public void getFromLocal() {
         LiveData<List<Meal>> listLiveData = repository.getStoredMeals(user.getUid());
-        List<Meal> list = new ArrayList<>();
-        listLiveData.observe((LifecycleOwner) MealsPresenter.this, new Observer<List<Meal>>() {
-            @Override
-            public void onChanged(List<Meal> meals) {
-                list.addAll(meals);
-                Log.i("TAG", "Local Meals Size " + meals.size());
 
-            }
-        });
-
-
-
-
-        return list;
+        //Log.i("TAG", "getFromLocal: " + listLiveData.getValue().size());
+        //_view.showSavedMeals(listLiveData);
     }
 
 
@@ -87,7 +82,6 @@ public class MealsPresenter implements NetworkCallBack , MealsView {
             Log.i("TAG", "size =  " + response.getMeals().size());
             _view.showMealsByCategory(response);
             Log.i("TAG", "size =  " + response.getMeals().size());
-
         }else if (filter == COUNTRIES) {
             Meals response = (Meals) result;
             _view.showMealsByCountry(response);
@@ -96,7 +90,7 @@ public class MealsPresenter implements NetworkCallBack , MealsView {
 
     @Override
     public void onFailure(String errorMsg) {
-        Log.i("TAG", "eror =  " + errorMsg);
+        Log.i("TAG", "error =  " + errorMsg);
 
     }
 
