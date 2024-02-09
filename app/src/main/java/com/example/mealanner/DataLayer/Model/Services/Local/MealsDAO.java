@@ -17,6 +17,8 @@ import io.reactivex.rxjava3.core.Flowable;
 public interface MealsDAO {
     @Query("SELECT * FROM MEALS WHERE userID = :userIDD")
     LiveData<List<Meal>> getAllMeals(String userIDD);
+    @Query("SELECT * FROM MEALS WHERE userID = :userIDD AND days IS NOT NULL")
+    LiveData<List<Meal>> getAllCalenderMeals(String userIDD);
 
     @Insert
     void insertMeal(Meal meal);

@@ -39,4 +39,7 @@ public class LocalDataSourceImpl implements LocalDataSource {
     public LiveData<List<Meal>> getAllMeals(String userID) {
         return mealsDAO.getAllMeals(userID);
     }
+
+    @Override
+    public LiveData<List<Meal>> getAllCalenderMeals(String userIDD) {return mealsDAO.getAllCalenderMeals(userIDD);}
 }

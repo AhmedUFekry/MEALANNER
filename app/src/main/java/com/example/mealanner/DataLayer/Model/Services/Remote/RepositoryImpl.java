@@ -42,6 +42,10 @@ public class RepositoryImpl<T> implements Repository<T> {
     public LiveData<List<Meal>> getStoredMeals(String userID) {
         return localDataSource.getAllMeals(userID);
     }
+    @Override
+    public LiveData<List<Meal>> getStoredCalenderMeals(String userID) {
+        return localDataSource.getAllCalenderMeals(userID);
+    }
 
     @Override
     public void insertMeal(Meal meal) {

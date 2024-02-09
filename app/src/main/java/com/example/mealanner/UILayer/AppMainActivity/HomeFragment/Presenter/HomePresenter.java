@@ -16,7 +16,7 @@ public class HomePresenter implements NetworkCallBack {
     Repository repository;
     HomeView _view;
     FirebaseAuth auth = FirebaseAuth.getInstance();
-    FirebaseUser user = auth.getCurrentUser();
+    public FirebaseUser user = auth.getCurrentUser();
 
 
     public HomePresenter(Repository repository, HomeView _view) {

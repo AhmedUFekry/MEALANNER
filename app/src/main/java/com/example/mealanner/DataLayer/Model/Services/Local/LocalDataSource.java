@@ -14,5 +14,7 @@ public interface LocalDataSource {
     void insertMeal(Meal meal);
     void deleteMeal(Meal meal);
     LiveData<List<Meal>> getAllMeals(String userID);
+    LiveData<List<Meal>> getAllCalenderMeals(String userIDD);
+
 
 }

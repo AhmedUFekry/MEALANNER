@@ -10,6 +10,7 @@ import io.reactivex.rxjava3.core.Flowable;
 
 public interface Repository<T> {
     public LiveData<List<Meal>> getStoredMeals(String userId);
+    public LiveData<List<Meal>> getStoredCalenderMeals(String userID);
     public void insertMeal(Meal meal);
     public void deleteMeal(Meal meal);
 

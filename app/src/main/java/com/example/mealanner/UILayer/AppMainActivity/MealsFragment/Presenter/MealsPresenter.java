@@ -32,7 +32,7 @@ public class MealsPresenter implements NetworkCallBack , MealsView {
     MealsView _view;
     MealsRCAdapterInterface mealsRCAdapterInterface;
     FirebaseAuth auth = FirebaseAuth.getInstance();
-    FirebaseUser user = auth.getCurrentUser();
+    public FirebaseUser user = auth.getCurrentUser();
     int filter;
     public static final int COUNTRIES = 1;
     public static final int CATEGORIES = 2;

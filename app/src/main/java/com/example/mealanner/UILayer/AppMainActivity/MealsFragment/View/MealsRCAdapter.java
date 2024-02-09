@@ -70,6 +70,9 @@ public class MealsRCAdapter extends RecyclerView.Adapter<MealsRCAdapter.MealsVie
         if (holder.mealImage != null) {
             holder.mealName.setText(mealName);
         }
+        if(mealsPresenter.user == null) {
+            holder.favBtn.setVisibility(View.INVISIBLE);
+        }
        /* if(mealsFromLocal.size() != 0) {
             for (int i = 0; i < mealsFromLocal.size(); i++) {
                 Log.i("TAG", "checking DataBase ");

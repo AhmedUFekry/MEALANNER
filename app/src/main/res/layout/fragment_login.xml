@@ -94,4 +94,27 @@
         app:circularflow_radiusInDP="50dp"
         app:layout_constraintEnd_toEndOf="@+id/loginBtn"
         app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="Sign In"
+        android:textColor="#FFFDFD"
+        android:textColorHint="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/googleBtn"
+        app:layout_constraintEnd_toEndOf="@+id/googleBtn"
+        app:layout_constraintStart_toStartOf="@+id/googleBtn"
+        app:layout_constraintTop_toTopOf="@+id/googleBtn" />
+
+    <Button
+        android:id="@+id/guestBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="Guest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

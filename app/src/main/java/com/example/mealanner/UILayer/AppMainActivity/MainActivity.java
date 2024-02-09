@@ -31,7 +31,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NetworkCallBack {
     private final static int FAVOURITS = 4;
     private ImageButton logoutBtn;
     FirebaseAuth auth;
+    FirebaseUser user;
     private GoogleSignInClient googleSignInClient;
 
 
@@ -59,9 +62,13 @@ public class MainActivity extends AppCompatActivity implements NetworkCallBack {
         logoutBtn = findViewById(R.id.logoutImageBTN);
         bottomNavigation.add(new MeowBottomNavigation.Model(HOME , R.drawable.home));
         bottomNavigation.add(new MeowBottomNavigation.Model(SEARCHE , R.drawable.search));
-        bottomNavigation.add(new MeowBottomNavigation.Model(CALENDER , R.drawable.calender));
-        bottomNavigation.add(new MeowBottomNavigation.Model(FAVOURITS , R.drawable.favourits));
+        if( getIntent().getIntExtra("guest",0) == 0 ) {
+            bottomNavigation.add(new MeowBottomNavigation.Model(CALENDER, R.drawable.calender));
+            bottomNavigation.add(new MeowBottomNavigation.Model(FAVOURITS, R.drawable.favourits));
+            logoutBtn.setImageResource(R.drawable.logout);
+        }
         auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -69,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements NetworkCallBack {
         googleSignInClient = GoogleSignIn.getClient(this, gso);
 
         //set current selected fragment
+        Fragment fragment = new HomeFragment();
+        loadAndReplaceFragment(fragment);
         bottomNavigation.show(HOME , true);
 
         // bottomNav Functions
@@ -76,15 +85,22 @@ public class MainActivity extends AppCompatActivity implements NetworkCallBack {
             @Override
             public Unit invoke(MeowBottomNavigation.Model model) {
                 Fragment fragment = new HomeFragment();
-                if(model.getId() == 1)
+                if(model.getId() == 1) {
                     fragment = new HomeFragment();
-                else if (model.getId() == 2)
+                    bottomNavigation.show(HOME, true);
+                }else if (model.getId() == 2) {
+                    bottomNavigation.show(SEARCHE, true);
                     fragment = new SearchFragment();
-                else if (model.getId() == 3)
+                }else if (model.getId() == 3) {
+                    bottomNavigation.show(CALENDER, true);
                     fragment = new CalenderFragment();
-                else if (model.getId() == 4)
+                }else if (model.getId() == 4) {
+                    bottomNavigation.show(FAVOURITS, true);
                     fragment = new FavouritFragment();
+                }
+
                 //methode for load and replace fragments
+
                 loadAndReplaceFragment(fragment);
 
 

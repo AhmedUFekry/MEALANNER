@@ -38,6 +38,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 public class LoginFragment extends Fragment {
 
     Button signUPbtn;
+    Button guest;
     ImageButton googleBtn;
     Button loginBtn;
     TextView userName;
@@ -71,6 +72,18 @@ public class LoginFragment extends Fragment {
         password  = view.findViewById(R.id.passwordEditText);
         loginBtn = view.findViewById(R.id.loginBtn);
         googleBtn = view.findViewById(R.id.googleBtn);
+        guest = view.findViewById(R.id.guestBtn);
+        guest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity().getApplicationContext(), "Guest Mode.",
+                        Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), MainActivity.class);
+                intent.putExtra("guest",1);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override

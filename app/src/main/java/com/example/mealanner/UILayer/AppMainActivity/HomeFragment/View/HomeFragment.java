@@ -76,6 +76,10 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
         homePresenter.getRandomMeal();
         homePresenter.getCountries();
         homePresenter.getCategories();
+
+        if(homePresenter.user == null){
+            addToFavBtn.setVisibility(View.INVISIBLE);
+        }
         isSaved = false;
 
 
