@@ -23,6 +23,10 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+
 public class MealsPresenter implements NetworkCallBack , MealsView {
     Repository repository;
     MealsView _view;
@@ -55,17 +59,13 @@ public class MealsPresenter implements NetworkCallBack , MealsView {
     public void deleteFromLocal(Meal meal){ repository.deleteMeal(meal);}
     public List<Meal> getFromLocal(){
             //mealsRCAdapterInterface.getMealsFromLocal((List<Meal>) repository.getStoredMeals());
-        LiveData<List<Meal>> listLiveData = repository.getStoredMeals();
+        Flowable<List<Meal>> listLiveData = repository.getStoredMeals();
         List<Meal> list = new ArrayList<>();
+        listLiveData.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+                item -> list.addAll(item)
+        );
 
-        listLiveData.observe((LifecycleOwner) MealsPresenter.this, new Observer<List<Meal>>() {
-            @Override
-            public void onChanged(List<Meal> meals) {
-                list.addAll(meals);
-                Log.i("TAG", "Local Meals Size " + meals.size());
 
-            }
-        });
         Log.i("TAG", "Local Meals Size " + list.size());
 
 

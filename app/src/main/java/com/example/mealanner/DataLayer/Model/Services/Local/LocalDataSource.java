@@ -6,9 +6,13 @@ import com.example.mealanner.DataLayer.Model.DataModels.Meal;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Observable;
+
 public interface LocalDataSource {
-    void insertMeal(Meal meal);
-    void deleteMeal(Meal meal);
-    LiveData<List<Meal>> getAllMeals();
+    Completable insertMeal(Meal meal);
+    Completable deleteMeal(Meal meal);
+    Flowable<List<Meal>> getAllMeals();
 
 }

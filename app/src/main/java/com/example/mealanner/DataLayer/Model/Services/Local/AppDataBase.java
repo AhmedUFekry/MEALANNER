@@ -7,7 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
 import com.example.mealanner.DataLayer.Model.DataModels.Meal;
-@Database(entities = {Meal.class}, version = 1 )
+@Database(entities = {Meal.class}, version = 1 , exportSchema = false)
 public abstract class AppDataBase extends RoomDatabase {
     private static AppDataBase instance = null;
 

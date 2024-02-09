@@ -1,13 +1,11 @@
 package com.example.mealanner.DataLayer.Model.Services.Remote;
 
-import android.util.Log;
-
-import androidx.lifecycle.LiveData;
-
 import com.example.mealanner.DataLayer.Model.DataModels.Meal;
 import com.example.mealanner.DataLayer.Model.Services.Local.LocalDataSource;
 
 import java.util.List;
+
+import io.reactivex.rxjava3.core.Flowable;
 
 public class RepositoryImpl<T> implements Repository<T> {
     //network Calls IDs
@@ -19,6 +17,8 @@ public class RepositoryImpl<T> implements Repository<T> {
     public static final int MEALSBYCategoryID = 6;
     public static final int RANDOMMEAL = 7;
     public static final int MealID = 8;
+    public static final int SEARCHBYNAME = 9;
+
 
     //////////////////
     private final RemoteDataSource<T> remoteDataSource;
@@ -37,7 +37,7 @@ public class RepositoryImpl<T> implements Repository<T> {
     }
 
     @Override
-    public LiveData<List<Meal>> getStoredMeals() {
+    public Flowable<List<Meal>> getStoredMeals() {
         return localDataSource.getAllMeals();
     }
 

@@ -63,5 +63,11 @@ dependencies {
     implementation("com.google.android.gms:play-services-auth:20.7.0")
     //Meow
     implementation ("com.etebarian:meow-bottom-navigation:1.2.0")
+    //RXroom
+    implementation("androidx.room:room-rxjava3:$2.6.1")
+//rxjavaretrofit
+    implementation ("com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0")
+    implementation ("io.reactivex.rxjava3:rxandroid:3.0.2")
+    implementation ("io.reactivex.rxjava3:rxjava:3.1.5")
 
 }
