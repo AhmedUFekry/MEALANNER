@@ -1,5 +1,11 @@
 package com.example.mealanner.UILayer.AppMainActivity.MealsFragment.Presenter;
 
+import android.util.Log;
+
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+
 import com.example.mealanner.DataLayer.Model.DataModels.Categories;
 import com.example.mealanner.DataLayer.Model.DataModels.Countries;
 import com.example.mealanner.DataLayer.Model.DataModels.Meal;
@@ -9,13 +15,18 @@ import com.example.mealanner.DataLayer.Model.Services.Remote.Repository;
 import com.example.mealanner.DataLayer.Model.Services.Remote.RepositoryImpl;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.Presenter.HomePresenter;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.HomeView;
+import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsRCAdapterInterface;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MealsPresenter implements NetworkCallBack , MealsView {
     Repository repository;
     MealsView _view;
+    MealsRCAdapterInterface mealsRCAdapterInterface;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
     int filter;
@@ -35,21 +46,44 @@ public class MealsPresenter implements NetworkCallBack , MealsView {
     }
     public void getMealsByCategories(String filterId){
         filter = CATEGORIES;
+        Log.i("TAG", "getmealllllllllls  getMealsByCategories=  " + filterId);
         repository.getDataFromAPI(MealsPresenter.this, RepositoryImpl.MEALSBYCategoryID, filterId);
     }
     public void saveToLocal(Meal meal){
         meal.userID = user.getUid();
         repository.insertMeal(meal);}
     public void deleteFromLocal(Meal meal){ repository.deleteMeal(meal);}
+    public List<Meal> getFromLocal(){
+            //mealsRCAdapterInterface.getMealsFromLocal((List<Meal>) repository.getStoredMeals());
+        LiveData<List<Meal>> listLiveData = repository.getStoredMeals();
+        List<Meal> list = new ArrayList<>();
+
+        listLiveData.observe((LifecycleOwner) MealsPresenter.this, new Observer<List<Meal>>() {
+            @Override
+            public void onChanged(List<Meal> meals) {
+                list.addAll(meals);
+                Log.i("TAG", "Local Meals Size " + meals.size());
+
+            }
+        });
+        Log.i("TAG", "Local Meals Size " + list.size());
+
+
+        return list;
+    }
 
 
 
 
     @Override
     public void onSuccess(Object result) {
+        Log.i("TAG", "filter in presenter =  " + filter);
         if (filter == CATEGORIES) {
             Meals response = (Meals) result;
+            Log.i("TAG", "size =  " + response.getMeals().size());
             _view.showMealsByCategory(response);
+            Log.i("TAG", "size =  " + response.getMeals().size());
+
         }else if (filter == COUNTRIES) {
             Meals response = (Meals) result;
             _view.showMealsByCountry(response);
@@ -58,6 +92,7 @@ public class MealsPresenter implements NetworkCallBack , MealsView {
 
     @Override
     public void onFailure(String errorMsg) {
+        Log.i("TAG", "size =  " + errorMsg);
 
     }
 

@@ -28,7 +28,7 @@ import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.HomeFragm
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.Presenter.MealsPresenter;
 
 
-public class MealsFragment extends Fragment implements NetworkCallBack ,MealsView{
+public class MealsFragment extends Fragment implements MealsView{
     MealsPresenter mealsPresenter;
     Repository repository;
     RecyclerView mealsRC;
@@ -69,24 +69,17 @@ public class MealsFragment extends Fragment implements NetworkCallBack ,MealsVie
         filterTV = view.findViewById(R.id.filterTV);
         repository = RepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(Void.class), LocalDataSourceImpl.getInstance(getContext().getApplicationContext()));
         mealsPresenter = new MealsPresenter(repository , MealsFragment.this);
-        if(getArguments().getInt("filterType") == 2) {
+        if(getArguments().getString("filterType") == "cat") {
             mealsPresenter.getMealsByCategories(filterId);
-        } else if (getArguments().getInt("filterType") == 1) {
+        } else if(getArguments().getString("filterType") == "con") {
             mealsPresenter.getMealsByCountries(filterId);
         }
+        Log.i("TAG", "filter key : " + filterId);
+
         filterTV.setText(filterId);
         isSaved = false;
     }
 
-    @Override
-    public void onSuccess(Object result) {
-
-    }
-
-    @Override
-    public void onFailure(String errorMsg) {
-
-    }
 
     @Override
     public void showMealsByCategory(Meals result) {
@@ -106,10 +99,14 @@ public class MealsFragment extends Fragment implements NetworkCallBack ,MealsVie
                 }
             }
         });*/
-        MealsRCAdapter mealsRCAdapter = new MealsRCAdapter(getContext() ,result.getMeals());
-        mealsRC.setAdapter(mealsRCAdapter);
-        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        mealsRC.setLayoutManager(gridLayoutManager);
+        Log.i("TAG", "showMealsByCategory: " + result.getMeals().size() );
+        if(result.getMeals().size() != 0) {
+            MealsRCAdapter mealsRCAdapter = new MealsRCAdapter(getContext(), result.getMeals());
+             mealsRCAdapter.getMealsFromLocal(mealsPresenter.getFromLocal());
+            mealsRC.setAdapter(mealsRCAdapter);
+            StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+            mealsRC.setLayoutManager(gridLayoutManager);
+        }
 
     }
 
@@ -131,7 +128,9 @@ public class MealsFragment extends Fragment implements NetworkCallBack ,MealsVie
                 }
             }
         });*/
+
         MealsRCAdapter mealsRCAdapter = new MealsRCAdapter(getContext() ,result.getMeals());
+        mealsRCAdapter.getMealsFromLocal(mealsPresenter.getFromLocal());
         mealsRC.setAdapter(mealsRCAdapter);
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mealsRC.setLayoutManager(gridLayoutManager);

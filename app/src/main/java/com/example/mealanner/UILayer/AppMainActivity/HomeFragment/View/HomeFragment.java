@@ -120,7 +120,7 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
         // Pass any necessary data to the MealsFragment using arguments
         Bundle bundle = new Bundle();
         bundle.putString("categoryName", category.getStrCategory());
-        bundle.putInt("filterType",1);
+        bundle.putString("filterType","cat");
         mealsFragment.setArguments(bundle);
         // Replace the current fragment with the MealsFragment
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
@@ -135,7 +135,7 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
         // Pass any necessary data to the MealsFragment using arguments
         Bundle bundle = new Bundle();
         bundle.putString("categoryName", country.getStrArea());
-        bundle.putInt("filterType",1);
+        bundle.putString("filterType","con");
         mealsFragment.setArguments(bundle);
         // Replace the current fragment with the MealsFragment
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
