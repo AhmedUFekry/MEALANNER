@@ -123,6 +123,11 @@ public class FavouritFragment extends Fragment implements MealsView {
     }
 
     @Override
+    public void showMealsByIngredients(Meals result) {
+
+    }
+
+    @Override
     public void showSavedMeals(LiveData<List<Meal>> meals) {
       /*  Log.i("TAG", "showSavedMeals: " + meals.getValue().size() );
         if(meals.getValue().size() != 0) {

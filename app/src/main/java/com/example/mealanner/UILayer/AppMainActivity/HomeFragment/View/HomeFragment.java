@@ -23,6 +23,7 @@ import com.example.mealanner.DataLayer.Model.DataModels.Categories;
 import com.example.mealanner.DataLayer.Model.DataModels.Category;
 import com.example.mealanner.DataLayer.Model.DataModels.Countries;
 import com.example.mealanner.DataLayer.Model.DataModels.Country;
+import com.example.mealanner.DataLayer.Model.DataModels.Ingrediants;
 import com.example.mealanner.DataLayer.Model.DataModels.Meals;
 import com.example.mealanner.DataLayer.Model.Services.Local.LocalDataSourceImpl;
 import com.example.mealanner.DataLayer.Model.Services.Remote.NetworkCallBack;
@@ -165,5 +166,10 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
         categoriesRC.setAdapter(categoriesRCAdapter);
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         categoriesRC.setLayoutManager(gridLayoutManager);
+    }
+
+    @Override
+    public void showIngredients(Ingrediants result) {
+
     }
 }

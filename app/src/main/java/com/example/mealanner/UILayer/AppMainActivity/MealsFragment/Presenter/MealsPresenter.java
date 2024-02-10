@@ -36,6 +36,7 @@ public class MealsPresenter implements NetworkCallBack , MealsView {
     int filter;
     public static final int COUNTRIES = 1;
     public static final int CATEGORIES = 2;
+    public static final int  INGREDIENTS = 3;
 
 
 
@@ -47,6 +48,11 @@ public class MealsPresenter implements NetworkCallBack , MealsView {
     public void getMealsByCountries(String filterId){
         filter = COUNTRIES;
         repository.getDataFromAPI(MealsPresenter.this, RepositoryImpl.MEALSBYCountryID , filterId);
+    }
+
+    public void getMealsByIngredient(String filterId){
+        filter = INGREDIENTS;
+        repository.getDataFromAPI(MealsPresenter.this, RepositoryImpl.MEALSBYINGREDIENTSID , filterId);
     }
     public void searchMeal(String filterId){
         filter = CATEGORIES;
@@ -97,6 +103,9 @@ public class MealsPresenter implements NetworkCallBack , MealsView {
         }else if (filter == COUNTRIES) {
             Meals response = (Meals) result;
             _view.showMealsByCountry(response);
+        }else if (filter == INGREDIENTS) {
+            Meals response = (Meals) result;
+            _view.showMealsByIngredients(response);
         }
     }
 
@@ -113,6 +122,11 @@ public class MealsPresenter implements NetworkCallBack , MealsView {
 
     @Override
     public void showMealsByCountry(Meals result) {
+
+    }
+
+    @Override
+    public void showMealsByIngredients(Meals result) {
 
     }
 

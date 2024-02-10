@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -24,10 +25,13 @@ import com.example.mealanner.DataLayer.Model.Services.Remote.RemoteDataSourceImp
 import com.example.mealanner.DataLayer.Model.Services.Remote.Repository;
 import com.example.mealanner.DataLayer.Model.Services.Remote.RepositoryImpl;
 import com.example.mealanner.R;
+import com.example.mealanner.UILayer.AppMainActivity.FavouriteFragment.FavRCAdapter;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.Presenter.HomePresenter;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.CategoriesRCAdapter;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.HomeFragment;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.Presenter.MealsPresenter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
@@ -40,6 +44,8 @@ public class MealsFragment extends Fragment implements MealsView{
     TextView filterTV;
     String filterId;
     boolean isSaved;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
+    public FirebaseUser user = auth.getCurrentUser();
 
 
     public MealsFragment() {
@@ -105,10 +111,21 @@ public class MealsFragment extends Fragment implements MealsView{
     public void showMealsByCountry(Meals result) {
         MealsRCAdapter mealsRCAdapter = new MealsRCAdapter(getContext() ,result.getMeals());
        // mealsRCAdapter.getMealsFromLocal(mealsPresenter.getFromLocal());
+
         mealsRC.setAdapter(mealsRCAdapter);
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mealsRC.setLayoutManager(gridLayoutManager);
 
+    }
+
+    @Override
+    public void showMealsByIngredients(Meals result) {
+        MealsRCAdapter mealsRCAdapter = new MealsRCAdapter(getContext() ,result.getMeals());
+        // mealsRCAdapter.getMealsFromLocal(mealsPresenter.getFromLocal());
+
+        mealsRC.setAdapter(mealsRCAdapter);
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mealsRC.setLayoutManager(gridLayoutManager);
     }
 
     @Override

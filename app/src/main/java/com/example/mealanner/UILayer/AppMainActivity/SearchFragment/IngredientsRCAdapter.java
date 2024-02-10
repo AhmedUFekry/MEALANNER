@@ -1,11 +1,11 @@
-package com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View;
+package com.example.mealanner.UILayer.AppMainActivity.SearchFragment;
 
 import android.content.Context;
-import android.text.style.AlignmentSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,62 +17,65 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.mealanner.DataLayer.Model.DataModels.Category;
+import com.example.mealanner.DataLayer.Model.DataModels.Ingrediant;
 import com.example.mealanner.DataLayer.Model.DataModels.Meal;
 import com.example.mealanner.DataLayer.Model.DataModels.Meals;
 import com.example.mealanner.DataLayer.Model.Services.Local.LocalDataSourceImpl;
 import com.example.mealanner.DataLayer.Model.Services.Remote.RemoteDataSourceImpl;
 import com.example.mealanner.DataLayer.Model.Services.Remote.RepositoryImpl;
 import com.example.mealanner.R;
-import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.Presenter.HomePresenter;
+import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.CategoriesRCAdapter;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.Presenter.MealsPresenter;
+import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class MealsRCAdapter extends RecyclerView.Adapter<MealsRCAdapter.MealsViewHolder> implements MealsView{
+public class IngredientsRCAdapter extends RecyclerView.Adapter<IngredientsRCAdapter.MealsViewHolder> implements MealsView {
     private Context context;
-    private List<Meal> meals;
-    private List<Meal> mealsFromLocal;
+    private List<Ingrediant> ingrediants;
+    private List<Ingrediant> mealsFromLocal;
     MealsPresenter mealsPresenter;
     RepositoryImpl repository;
-    boolean isSaved;
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    FirebaseUser user = auth.getCurrentUser();
+    private static OnIngItemClickListener onItemClickListener;
+    public void setOnItemClickListener(OnIngItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+    public interface OnIngItemClickListener {
+        void onItemClick(Ingrediant ingrediant);
+    }
 
-    public MealsRCAdapter(Context context, List<Meal> meals) {
+    public IngredientsRCAdapter(Context context, List<Ingrediant> meals) {
         this.context = context;
-        this.meals = meals;
-         repository = RepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(Void.class), LocalDataSourceImpl.getInstance(context));
-         mealsPresenter = new MealsPresenter(repository, this);
+        this.ingrediants = meals;
+        repository = RepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(Void.class), LocalDataSourceImpl.getInstance(context));
+        mealsPresenter = new MealsPresenter(repository, this);
 
     }
-    public void setList(List<Meal> mealsList){
-        this.meals = mealsList;
+    public void setList(List<Ingrediant> mealsList){
+        this.ingrediants = mealsList;
     }
 
     @NonNull
     @Override
-    public MealsRCAdapter.MealsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public IngredientsRCAdapter.MealsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.meals_recycler_view_row,parent,false);
-        MealsRCAdapter.MealsViewHolder viewHolderr = new MealsRCAdapter.MealsViewHolder(view);
+        IngredientsRCAdapter.MealsViewHolder viewHolderr = new IngredientsRCAdapter.MealsViewHolder(view);
         return viewHolderr;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MealsRCAdapter.MealsViewHolder holder, int position) {
-        isSaved = false;
-        String mealName = meals.get(position).getStrMeal().toString().toLowerCase();
-         Log.i("image", "onBindViewHolder: " + meals.get(position).getStrMealThumb());
-        Glide.with(context).load(meals.get(position).getStrMealThumb()).apply(new RequestOptions().override(200,200).placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.ic_launcher_foreground)).into(holder.mealImage);
+    public void onBindViewHolder(@NonNull IngredientsRCAdapter.MealsViewHolder holder, int position) {
+        String mealName = ingrediants.get(position).getStrIngredient().toString().toLowerCase();
+        Log.i("image", "onBindViewHolder: " + ingrediants.get(position).getStrIngredient());
+        Glide.with(context).load("https://www.themealdb.com/images/ingredients/"+mealName+"-small.png").apply(new RequestOptions().override(200,200).placeholder(R.drawable.ic_launcher_foreground).error(R.drawable.ic_launcher_foreground)).into(holder.mealImage);
         if (holder.mealImage != null) {
             holder.mealName.setText(mealName);
         }
-        if(mealsPresenter.user == null) {
             holder.favBtn.setVisibility(View.INVISIBLE);
-        }
+
         /*if(mealsFromLocal.size() != 0) {
             for (int i = 0; i < mealsFromLocal.size(); i++) {
                 Log.i("TAG", "checking DataBase ");
@@ -82,28 +85,12 @@ public class MealsRCAdapter extends RecyclerView.Adapter<MealsRCAdapter.MealsVie
                 }
             }
         }*/
-        holder.favBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isSaved == false) {
-                    mealsPresenter.saveToLocal(meals.get(holder.getAdapterPosition()));
-                    holder.favBtn.setImageResource(android.R.drawable.btn_star_big_on);
-                    Log.i("TAG", "onSuccess Saved TO Local: " + meals.get(holder.getAdapterPosition()).getStrMeal());
-                    isSaved = true;
-                }else {
-                    isSaved = false;
-                    holder.favBtn.setImageResource(android.R.drawable.btn_star_big_off);
-                    mealsPresenter.deleteFromLocal(meals.get(holder.getAdapterPosition()));
-                    Log.i("TAG", "onSuccess: " + meals.get(holder.getAdapterPosition()).getStrMeal());
-                }
 
-            }
-        });
     }
 
     @Override
     public int getItemCount() {
-        return meals.size();
+        return ingrediants.size();
     }
 
 
@@ -128,10 +115,11 @@ public class MealsRCAdapter extends RecyclerView.Adapter<MealsRCAdapter.MealsVie
 
     }
     public void localMealschecker(List<Meal> meals) {
-        mealsFromLocal.addAll(meals);
+
     }
 
-    public static class MealsViewHolder extends RecyclerView.ViewHolder{
+
+    public class MealsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView mealName;
         ImageView mealImage;
 
@@ -144,5 +132,15 @@ public class MealsRCAdapter extends RecyclerView.Adapter<MealsRCAdapter.MealsVie
             favBtn = itemView.findViewById(R.id.addmealToFavimageBtn);
 
         }
+
+
+
+        @Override
+        public void onClick(View v) {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(ingrediants.get(getAdapterPosition()));
+            }
+        }
     }
 }
+

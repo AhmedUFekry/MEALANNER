@@ -5,9 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -19,12 +17,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.example.mealanner.DataLayer.Model.DataModels.Categories;
 import com.example.mealanner.DataLayer.Model.DataModels.Category;
 import com.example.mealanner.DataLayer.Model.DataModels.Countries;
 import com.example.mealanner.DataLayer.Model.DataModels.Country;
+import com.example.mealanner.DataLayer.Model.DataModels.Ingrediant;
+import com.example.mealanner.DataLayer.Model.DataModels.Ingrediants;
 import com.example.mealanner.DataLayer.Model.DataModels.Meal;
 import com.example.mealanner.DataLayer.Model.DataModels.Meals;
 import com.example.mealanner.DataLayer.Model.Services.Local.LocalDataSourceImpl;
@@ -36,18 +35,14 @@ import com.example.mealanner.R;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.Presenter.HomePresenter;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.CategoriesRCAdapter;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.CountriesRCAdapter;
-import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.HomeFragment;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.HomeView;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.Presenter.MealsPresenter;
-import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsFragment;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsRCAdapter;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
 import java.util.List;
-
-import io.reactivex.rxjava3.core.Observable;
 
 public class SearchFragment extends Fragment implements NetworkCallBack, HomeView, MealsView {
 
@@ -59,8 +54,10 @@ public class SearchFragment extends Fragment implements NetworkCallBack, HomeVie
     CategoriesRCAdapter categoriesRCAdapter;
     CountriesRCAdapter countriesRCAdapter;
     MealsRCAdapter mealsRCAdapter;
+    IngredientsRCAdapter ingredientsRCAdapter;
     Categories localCategories;
     Countries localCountries;
+    Ingrediants localIngredients;
     EditText searchEditText;
 
 
@@ -92,6 +89,7 @@ public class SearchFragment extends Fragment implements NetworkCallBack, HomeVie
         setupChips();
         homePresenter.getCountries();
         homePresenter.getCategories();
+        homePresenter.getIngredients();
 
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -136,6 +134,9 @@ public class SearchFragment extends Fragment implements NetworkCallBack, HomeVie
 
                         }else if (chip.getText().toString().equals("ingredient")) {
                             Log.i("TAG", "onCheckedChanged: ingredient");
+                            showIngredients(localIngredients);
+                            searchRC.setAdapter(ingredientsRCAdapter);
+                            ingredientsRCAdapter.notifyDataSetChanged();
                            // adapter.setList(getSony());
                            // adapter.notifyDataSetChanged();
                         }
@@ -178,11 +179,25 @@ public class SearchFragment extends Fragment implements NetworkCallBack, HomeVie
         searchRC.setLayoutManager(gridLayoutManager);
         localCategories = result;
     }
+
+    @Override
+    public void showIngredients(Ingrediants result) {
+        ingredientsRCAdapter = new IngredientsRCAdapter(getContext() ,result.getMeals());
+        ingredientsRCAdapter.setOnItemClickListener(ingrediant -> onIngredientClick(ingrediant));
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        searchRC.setLayoutManager(gridLayoutManager);
+        localIngredients = result;
+    }
+
     public void onCategoryClick(Category category) {
         mealsPresenter.getMealsByCategories(category.getStrCategory());
     }
     public void onCountryClick(Country country) {
         mealsPresenter.getMealsByCountries(country.getStrArea());
+
+    }
+    public void onIngredientClick(Ingrediant ingrediant) {
+        mealsPresenter.getMealsByIngredient(ingrediant.getStrIngredient());
 
     }
     private void updateRecyclerViewWithMealsAdapter(RecyclerView.Adapter adapter) {
@@ -205,6 +220,12 @@ public class SearchFragment extends Fragment implements NetworkCallBack, HomeVie
         mealsRCAdapter = new MealsRCAdapter(getContext() ,result.getMeals());
         updateRecyclerViewWithMealsAdapter(mealsRCAdapter);
 
+    }
+
+    @Override
+    public void showMealsByIngredients(Meals result) {
+        mealsRCAdapter = new MealsRCAdapter(getContext() ,result.getMeals());
+        updateRecyclerViewWithMealsAdapter(mealsRCAdapter);
     }
 
     @Override

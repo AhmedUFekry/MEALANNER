@@ -99,6 +99,11 @@ public class FavRCAdapter extends RecyclerView.Adapter<FavRCAdapter.FavViewHolde
     }
 
     @Override
+    public void showMealsByIngredients(Meals result) {
+
+    }
+
+    @Override
     public void showSavedMeals(LiveData<List<Meal>> meals) {
 
     }

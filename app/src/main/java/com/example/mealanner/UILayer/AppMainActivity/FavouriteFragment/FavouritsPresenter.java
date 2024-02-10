@@ -32,6 +32,8 @@ public class FavouritsPresenter implements NetworkCallBack, MealsView {
     int filter;
     public static final int COUNTRIES = 1;
     public static final int CATEGORIES = 2;
+    public static final int INGREDIENTS = 3;
+
 
 
 
@@ -49,6 +51,10 @@ public class FavouritsPresenter implements NetworkCallBack, MealsView {
         filter = CATEGORIES;
         Log.i("TAG", "getmealllllllllls  getMealsByCategories=  " + filterId);
         repository.getDataFromAPI(FavouritsPresenter.this, RepositoryImpl.MEALSBYCategoryID, filterId);
+    }
+    public void getMealsByIngredient(String filterId){
+        filter = INGREDIENTS;
+        repository.getDataFromAPI(FavouritsPresenter.this, RepositoryImpl.MEALSBYINGREDIENTSID , filterId);
     }
     public void saveToLocal(Meal meal){
         meal.userID = user.getUid();
@@ -85,6 +91,9 @@ public class FavouritsPresenter implements NetworkCallBack, MealsView {
         }else if (filter == COUNTRIES) {
             Meals response = (Meals) result;
             _view.showMealsByCountry(response);
+        }else if (filter == INGREDIENTS) {
+            Meals response = (Meals) result;
+            _view.showMealsByIngredients(response);
         }
     }
 
@@ -101,6 +110,11 @@ public class FavouritsPresenter implements NetworkCallBack, MealsView {
 
     @Override
     public void showMealsByCountry(Meals result) {
+
+    }
+
+    @Override
+    public void showMealsByIngredients(Meals result) {
 
     }
 
