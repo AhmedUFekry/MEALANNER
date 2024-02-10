@@ -11,11 +11,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.mealanner.DataLayer.Model.DataModels.Categories;
@@ -44,6 +47,8 @@ import com.google.android.material.chip.ChipGroup;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Observable;
+
 public class SearchFragment extends Fragment implements NetworkCallBack, HomeView, MealsView {
 
     ChipGroup chipGroup;
@@ -56,6 +61,8 @@ public class SearchFragment extends Fragment implements NetworkCallBack, HomeVie
     MealsRCAdapter mealsRCAdapter;
     Categories localCategories;
     Countries localCountries;
+    EditText searchEditText;
+
 
 
 
@@ -78,12 +85,29 @@ public class SearchFragment extends Fragment implements NetworkCallBack, HomeVie
         super.onViewCreated(view, savedInstanceState);
         chipGroup = view.findViewById(R.id.chipsGroupID);
         searchRC = view.findViewById(R.id.searchRC);
+        searchEditText = view.findViewById(R.id.searchEditText);
         repository = RepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(Void.class), LocalDataSourceImpl.getInstance(getContext().getApplicationContext()));
         homePresenter = new HomePresenter(repository, SearchFragment.this);
         mealsPresenter = new MealsPresenter(repository , SearchFragment.this);
         setupChips();
         homePresenter.getCountries();
         homePresenter.getCategories();
+
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable text) {
+                String searchText = text.toString().toLowerCase();
+              mealsPresenter.searchMeal(searchText);
+            }
+        });
 
     }
     void setupChips(){

@@ -48,11 +48,17 @@ public class MealsPresenter implements NetworkCallBack , MealsView {
         filter = COUNTRIES;
         repository.getDataFromAPI(MealsPresenter.this, RepositoryImpl.MEALSBYCountryID , filterId);
     }
+    public void searchMeal(String filterId){
+        filter = CATEGORIES;
+        repository.getDataFromAPI(MealsPresenter.this, RepositoryImpl.SEARCHBYNAME , filterId);
+    }
+
     public void getMealsByCategories(String filterId){
         filter = CATEGORIES;
         Log.i("TAG", "getmealllllllllls  getMealsByCategories=  " + filterId);
         repository.getDataFromAPI(MealsPresenter.this, RepositoryImpl.MEALSBYCategoryID, filterId);
     }
+
     public void saveToLocal(Meal meal){
         meal.userID = user.getUid();
         repository.insertMeal(meal);}
