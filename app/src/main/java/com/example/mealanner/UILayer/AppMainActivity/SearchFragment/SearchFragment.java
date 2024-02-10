@@ -137,8 +137,7 @@ public class SearchFragment extends Fragment implements NetworkCallBack, HomeVie
                             showIngredients(localIngredients);
                             searchRC.setAdapter(ingredientsRCAdapter);
                             ingredientsRCAdapter.notifyDataSetChanged();
-                           // adapter.setList(getSony());
-                           // adapter.notifyDataSetChanged();
+
                         }
                     }
                 }
@@ -183,6 +182,7 @@ public class SearchFragment extends Fragment implements NetworkCallBack, HomeVie
     @Override
     public void showIngredients(Ingrediants result) {
         ingredientsRCAdapter = new IngredientsRCAdapter(getContext() ,result.getMeals());
+        Log.i("TAG", "showIngredients: "+result.getMeals().get(0).getStrIngredient().toString());
         ingredientsRCAdapter.setOnItemClickListener(ingrediant -> onIngredientClick(ingrediant));
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         searchRC.setLayoutManager(gridLayoutManager);
@@ -193,10 +193,12 @@ public class SearchFragment extends Fragment implements NetworkCallBack, HomeVie
         mealsPresenter.getMealsByCategories(category.getStrCategory());
     }
     public void onCountryClick(Country country) {
+        Log.i("TAG", "o44444444444nCountryClick: ");
         mealsPresenter.getMealsByCountries(country.getStrArea());
 
     }
     public void onIngredientClick(Ingrediant ingrediant) {
+        Log.i("TAG", "onIngredientClick: " + ingrediant.getStrIngredient().toString());
         mealsPresenter.getMealsByIngredient(ingrediant.getStrIngredient());
 
     }

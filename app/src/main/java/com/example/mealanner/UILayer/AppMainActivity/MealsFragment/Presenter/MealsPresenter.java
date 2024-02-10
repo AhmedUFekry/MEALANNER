@@ -52,6 +52,7 @@ public class MealsPresenter implements NetworkCallBack , MealsView {
 
     public void getMealsByIngredient(String filterId){
         filter = INGREDIENTS;
+        Log.i("TAG", "getMealsByIngredient: " + filter);
         repository.getDataFromAPI(MealsPresenter.this, RepositoryImpl.MEALSBYINGREDIENTSID , filterId);
     }
     public void searchMeal(String filterId){

@@ -23,6 +23,7 @@ public class CategoriesRCAdapter extends RecyclerView.Adapter<CategoriesRCAdapte
     private List<Category> categoriesy;
     private OnItemClickListener onItemClickListener;
     public void setOnItemClickListener(OnItemClickListener listener) {
+
         this.onItemClickListener = listener;
     }
 

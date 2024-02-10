@@ -29,6 +29,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:paddingStart="32dp"
         app:chipSpacingHorizontal="64dp"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout"

@@ -32,26 +32,25 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.List;
 
-public class IngredientsRCAdapter extends RecyclerView.Adapter<IngredientsRCAdapter.MealsViewHolder> implements MealsView {
+public class IngredientsRCAdapter extends RecyclerView.Adapter<IngredientsRCAdapter.MealsViewHolder> {
     private Context context;
     private List<Ingrediant> ingrediants;
     private List<Ingrediant> mealsFromLocal;
     MealsPresenter mealsPresenter;
     RepositoryImpl repository;
-    private static OnIngItemClickListener onItemClickListener;
+    private OnIngItemClickListener onItemClickListener;
     public void setOnItemClickListener(OnIngItemClickListener listener) {
+        Log.i("TAG", "setOnItemClicvvvvvvvvvvvkListener: ");
         this.onItemClickListener = listener;
     }
     public interface OnIngItemClickListener {
+
         void onItemClick(Ingrediant ingrediant);
     }
 
     public IngredientsRCAdapter(Context context, List<Ingrediant> meals) {
         this.context = context;
         this.ingrediants = meals;
-        repository = RepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(Void.class), LocalDataSourceImpl.getInstance(context));
-        mealsPresenter = new MealsPresenter(repository, this);
-
     }
     public void setList(List<Ingrediant> mealsList){
         this.ingrediants = mealsList;
@@ -95,28 +94,7 @@ public class IngredientsRCAdapter extends RecyclerView.Adapter<IngredientsRCAdap
 
 
 
-    @Override
-    public void showMealsByCategory(Meals result) {
 
-    }
-
-    @Override
-    public void showMealsByCountry(Meals result) {
-
-    }
-
-    @Override
-    public void showMealsByIngredients(Meals result) {
-
-    }
-
-    @Override
-    public void showSavedMeals(LiveData<List<Meal>> meals) {
-
-    }
-    public void localMealschecker(List<Meal> meals) {
-
-    }
 
 
     public class MealsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
