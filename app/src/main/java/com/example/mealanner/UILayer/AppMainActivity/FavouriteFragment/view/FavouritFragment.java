@@ -1,4 +1,4 @@
-package com.example.mealanner.UILayer.AppMainActivity.FavouriteFragment;
+package com.example.mealanner.UILayer.AppMainActivity.FavouriteFragment.view;
 
 import android.os.Bundle;
 
@@ -24,6 +24,7 @@ import com.example.mealanner.DataLayer.Model.Services.Remote.RemoteDataSourceImp
 import com.example.mealanner.DataLayer.Model.Services.Remote.Repository;
 import com.example.mealanner.DataLayer.Model.Services.Remote.RepositoryImpl;
 import com.example.mealanner.R;
+import com.example.mealanner.UILayer.AppMainActivity.FavouriteFragment.presenter.FavouritsPresenter;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsRCAdapter;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsView;
 import com.google.firebase.auth.FirebaseAuth;

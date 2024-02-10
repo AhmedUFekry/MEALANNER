@@ -21,8 +21,8 @@ import com.example.mealanner.DataLayer.Model.Services.Remote.RemoteDataSourceImp
 import com.example.mealanner.DataLayer.Model.Services.Remote.Repository;
 import com.example.mealanner.DataLayer.Model.Services.Remote.RepositoryImpl;
 import com.example.mealanner.R;
-import com.example.mealanner.UILayer.AppMainActivity.CalenderFragment.CalenderFragment;
-import com.example.mealanner.UILayer.AppMainActivity.FavouriteFragment.FavouritFragment;
+import com.example.mealanner.UILayer.AppMainActivity.CalenderFragment.View.CalenderFragment;
+import com.example.mealanner.UILayer.AppMainActivity.FavouriteFragment.view.FavouritFragment;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.HomeFragment;
 import com.example.mealanner.UILayer.AppMainActivity.SearchFragment.SearchFragment;
 import com.example.mealanner.UILayer.LoginActivity.Login;
@@ -31,7 +31,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

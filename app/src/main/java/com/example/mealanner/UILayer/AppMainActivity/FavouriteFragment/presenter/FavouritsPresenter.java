@@ -1,26 +1,20 @@
-package com.example.mealanner.UILayer.AppMainActivity.FavouriteFragment;
+package com.example.mealanner.UILayer.AppMainActivity.FavouriteFragment.presenter;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.LifecycleRegistry;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
 import com.example.mealanner.DataLayer.Model.DataModels.Meal;
 import com.example.mealanner.DataLayer.Model.DataModels.Meals;
 import com.example.mealanner.DataLayer.Model.Services.Remote.NetworkCallBack;
 import com.example.mealanner.DataLayer.Model.Services.Remote.Repository;
 import com.example.mealanner.DataLayer.Model.Services.Remote.RepositoryImpl;
-import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.Presenter.MealsPresenter;
+import com.example.mealanner.UILayer.AppMainActivity.FavouriteFragment.view.FavouritFragment;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsRCAdapterInterface;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FavouritsPresenter implements NetworkCallBack, MealsView {

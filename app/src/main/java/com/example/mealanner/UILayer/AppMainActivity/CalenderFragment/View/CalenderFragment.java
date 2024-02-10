@@ -1,4 +1,4 @@
-package com.example.mealanner.UILayer.AppMainActivity.CalenderFragment;
+package com.example.mealanner.UILayer.AppMainActivity.CalenderFragment.View;
 
 import android.os.Bundle;
 

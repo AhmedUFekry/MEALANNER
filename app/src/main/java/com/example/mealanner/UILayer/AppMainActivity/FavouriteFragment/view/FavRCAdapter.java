@@ -1,8 +1,7 @@
-package com.example.mealanner.UILayer.AppMainActivity.FavouriteFragment;
+package com.example.mealanner.UILayer.AppMainActivity.FavouriteFragment.view;
 
 import android.content.Context;
-        import android.text.style.AlignmentSpan;
-        import android.util.Log;
+import android.util.Log;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
@@ -16,21 +15,16 @@ import android.content.Context;
 
         import com.bumptech.glide.Glide;
         import com.bumptech.glide.request.RequestOptions;
-        import com.example.mealanner.DataLayer.Model.DataModels.Category;
-        import com.example.mealanner.DataLayer.Model.DataModels.Meal;
+import com.example.mealanner.DataLayer.Model.DataModels.Meal;
         import com.example.mealanner.DataLayer.Model.DataModels.Meals;
         import com.example.mealanner.DataLayer.Model.Services.Local.LocalDataSourceImpl;
         import com.example.mealanner.DataLayer.Model.Services.Remote.RemoteDataSourceImpl;
         import com.example.mealanner.DataLayer.Model.Services.Remote.RepositoryImpl;
         import com.example.mealanner.R;
-        import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.Presenter.HomePresenter;
-        import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.Presenter.MealsPresenter;
+import com.example.mealanner.UILayer.AppMainActivity.FavouriteFragment.presenter.FavouritsPresenter;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsView;
-import com.google.firebase.auth.FirebaseAuth;
-        import com.google.firebase.auth.FirebaseUser;
 
-        import java.util.ArrayList;
-        import java.util.List;
+import java.util.List;
 
 public class FavRCAdapter extends RecyclerView.Adapter<FavRCAdapter.FavViewHolder> implements MealsView {
     private Context context;
