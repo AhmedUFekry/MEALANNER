@@ -17,5 +17,6 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         NavController navController = Navigation.findNavController(Login.this,R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(Login.this, navController);
+
     }
 }

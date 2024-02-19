@@ -13,6 +13,9 @@ public class Ingrediant {
 	public String getStrIngredient(){
 		return strIngredient;
 	}
+	public void setStrIngredient(String ingredientName){
+		this.strIngredient = ingredientName;
+	}
 
 	public Object getStrType(){
 		return strType;

@@ -72,7 +72,7 @@ public class RemoteDataSourceImpl<T> implements RemoteDataSource<T> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         response -> networkInterface.onSuccess(response),
-                        throwable -> networkInterface.onFailure(throwable.getMessage())
+                        throwable ->  {throwable.printStackTrace(); networkInterface.onFailure(throwable.getMessage());}
                 );
     }
 }

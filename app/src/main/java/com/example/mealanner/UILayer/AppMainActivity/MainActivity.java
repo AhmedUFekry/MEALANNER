@@ -24,6 +24,7 @@ import com.example.mealanner.R;
 import com.example.mealanner.UILayer.AppMainActivity.CalenderFragment.View.CalenderFragment;
 import com.example.mealanner.UILayer.AppMainActivity.FavouriteFragment.view.FavouritFragment;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.HomeFragment;
+import com.example.mealanner.UILayer.AppMainActivity.MealDetailsFragment.View.MealDetailsFragment;
 import com.example.mealanner.UILayer.AppMainActivity.SearchFragment.SearchFragment;
 import com.example.mealanner.UILayer.LoginActivity.Login;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NetworkCallBack {
             public Unit invoke(MeowBottomNavigation.Model model) {
                 Fragment fragment = new HomeFragment();
                 if(model.getId() == 1) {
-                    fragment = new HomeFragment();
+                    fragment = new MealDetailsFragment();
                     bottomNavigation.show(HOME, true);
                 }else if (model.getId() == 2) {
                     bottomNavigation.show(SEARCHE, true);

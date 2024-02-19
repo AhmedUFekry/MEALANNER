@@ -8,4 +8,8 @@ public class Ingrediants {
 	public List<Ingrediant> getMeals(){
 		return meals;
 	}
+	public void setMeals(List<Ingrediant> newMeals){
+		this.meals = newMeals;
+	}
+
 }
