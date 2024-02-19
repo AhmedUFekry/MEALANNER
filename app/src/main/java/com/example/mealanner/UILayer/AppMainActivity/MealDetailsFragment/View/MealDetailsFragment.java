@@ -31,6 +31,9 @@ import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.Presenter.Home
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.HomeFragment;
 import com.example.mealanner.UILayer.AppMainActivity.MealDetailsFragment.Presenter.MealDetailsPresenter;
 import com.example.mealanner.UILayer.AppMainActivity.SearchFragment.IngredientsRCAdapter;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener;
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 
 import java.net.URI;
 import java.net.URL;
@@ -42,7 +45,7 @@ public class MealDetailsFragment extends Fragment implements NetworkCallBack , M
     ImageButton addToCalenderBtn;
     RecyclerView ingredientsRC;
     TextView DescriptionTextView;
-    VideoView mealVideoView;
+    YouTubePlayerView mealVideoView;
     RepositoryImpl repository;
     IngredientsRCAdapter ingredientsRCAdapter;
     MealDetailsPresenter mealDetailsPresenter;
@@ -112,8 +115,18 @@ public class MealDetailsFragment extends Fragment implements NetworkCallBack , M
         mealTextView.setText(result.getMeals().get(0).getStrMeal());
         Log.i("TAG", "showMealDetails: " + result.getMeals().get(0).getStrMeal());
         DescriptionTextView.setText(result.getMeals().get(0).getStrInstructions());
-        Uri uri = Uri.parse(result.getMeals().get(0).getStrYoutube().toString());
-        mealVideoView.setVideoURI(uri);
+        mealVideoView.addYouTubePlayerListener(new AbstractYouTubePlayerListener() {
+            @Override
+            public void onReady(@NonNull YouTubePlayer youTubePlayer) {
+                super.onReady(youTubePlayer);
+
+                if (isAdded()) {
+                    //youTubePlayer.cueVideo(result.getMeals().get(0).getStrYoutube().toString(), 0);
+                    youTubePlayer.loadVideo(result.getMeals().get(0).getStrYoutube(), 0);
+                }
+            }
+        });
+
 
     }
 }

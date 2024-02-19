@@ -124,17 +124,19 @@
             android:textStyle="bold|italic"
             app:layout_constraintStart_toStartOf="@+id/descriptiontextView"
             app:layout_constraintTop_toBottomOf="@+id/descriptiontextView" />
-
-        <VideoView
+        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/mealVideoView"
-            android:layout_width="0dp"
-            android:layout_height="200dp"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="64dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/descriptiontextView"
             app:layout_constraintStart_toStartOf="@+id/descriptiontextView"
-            app:layout_constraintTop_toBottomOf="@+id/textView888" />
+            app:layout_constraintTop_toBottomOf="@+id/textView888"
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
