@@ -66,6 +66,7 @@ public class MealsPresenter implements NetworkCallBack , MealsView {
         repository.getDataFromAPI(MealsPresenter.this, RepositoryImpl.MEALSBYCategoryID, filterId);
     }
 
+
     public void saveToLocal(Meal meal){
         meal.userID = user.getUid();
         repository.insertMeal(meal);}
@@ -128,6 +129,11 @@ public class MealsPresenter implements NetworkCallBack , MealsView {
 
     @Override
     public void showMealsByIngredients(Meals result) {
+
+    }
+
+    @Override
+    public void showMealDetails(Meals result) {
 
     }
 

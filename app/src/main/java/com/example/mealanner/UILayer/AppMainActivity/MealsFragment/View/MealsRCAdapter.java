@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.mealanner.DataLayer.Model.DataModels.Category;
+import com.example.mealanner.DataLayer.Model.DataModels.Ingrediant;
 import com.example.mealanner.DataLayer.Model.DataModels.Meal;
 import com.example.mealanner.DataLayer.Model.DataModels.Meals;
 import com.example.mealanner.DataLayer.Model.Services.Local.LocalDataSourceImpl;
@@ -25,6 +26,7 @@ import com.example.mealanner.DataLayer.Model.Services.Remote.RepositoryImpl;
 import com.example.mealanner.R;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.Presenter.HomePresenter;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.Presenter.MealsPresenter;
+import com.example.mealanner.UILayer.AppMainActivity.SearchFragment.IngredientsRCAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -40,6 +42,15 @@ public class MealsRCAdapter extends RecyclerView.Adapter<MealsRCAdapter.MealsVie
     boolean isSaved;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
+    private OnMealClickListener onnItemClickListener;
+    public void setOnItemClickListener(OnMealClickListener listener) {
+
+        this.onnItemClickListener = listener;
+    }
+
+    public interface OnMealClickListener {
+        void onItemClick(Meal meal);
+    }
 
     public MealsRCAdapter(Context context, List<Meal> meals) {
         this.context = context;
@@ -124,6 +135,11 @@ public class MealsRCAdapter extends RecyclerView.Adapter<MealsRCAdapter.MealsVie
     }
 
     @Override
+    public void showMealDetails(Meals result) {
+
+    }
+
+    @Override
     public void showSavedMeals(LiveData<List<Meal>> meals) {
 
     }
@@ -131,7 +147,7 @@ public class MealsRCAdapter extends RecyclerView.Adapter<MealsRCAdapter.MealsVie
         mealsFromLocal.addAll(meals);
     }
 
-    public static class MealsViewHolder extends RecyclerView.ViewHolder{
+    public class MealsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView mealName;
         ImageView mealImage;
 
@@ -142,7 +158,15 @@ public class MealsRCAdapter extends RecyclerView.Adapter<MealsRCAdapter.MealsVie
             mealName = itemView.findViewById(R.id.mealNameTV);
             mealImage = itemView.findViewById(R.id.mealImageView);
             favBtn = itemView.findViewById(R.id.addmealToFavimageBtn);
+            itemView.setOnClickListener(this);
+        }
 
+
+        @Override
+        public void onClick(View v) {
+            if (onnItemClickListener != null) {
+                onnItemClickListener.onItemClick(meals.get(getAdapterPosition()));
+            }
         }
     }
 }

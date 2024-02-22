@@ -10,6 +10,7 @@ public interface HomeView {
     void showCountries(Countries result);
     void showCategories(Categories result);
     void showIngredients(Ingrediants result);
+    void showMealDetails(Meals result);
 
 
 

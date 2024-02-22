@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -23,6 +24,7 @@ import com.example.mealanner.DataLayer.Model.Services.Remote.RemoteDataSourceImp
 import com.example.mealanner.DataLayer.Model.Services.Remote.Repository;
 import com.example.mealanner.DataLayer.Model.Services.Remote.RepositoryImpl;
 import com.example.mealanner.R;
+import com.example.mealanner.UILayer.AppMainActivity.MealDetailsFragment.View.MealDetailsFragment;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.Presenter.MealsPresenter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -93,6 +95,7 @@ public class MealsFragment extends Fragment implements MealsView{
         if(result.getMeals().size() != 0) {
             Log.i("TAG", "showMealsByCategory: " + result.getMeals().size() );
             MealsRCAdapter mealsRCAdapter = new MealsRCAdapter(getContext(), result.getMeals());
+            mealsRCAdapter.setOnItemClickListener(meal -> onMealClick(meal));
             //mealsRCAdapter.getMealsFromLocal(mealsPresenter.getFromLocal());
             mealsRC.setAdapter(mealsRCAdapter);
             StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
@@ -105,7 +108,7 @@ public class MealsFragment extends Fragment implements MealsView{
     public void showMealsByCountry(Meals result) {
         MealsRCAdapter mealsRCAdapter = new MealsRCAdapter(getContext() ,result.getMeals());
        // mealsRCAdapter.getMealsFromLocal(mealsPresenter.getFromLocal());
-
+        mealsRCAdapter.setOnItemClickListener(meal -> onMealClick(meal));
         mealsRC.setAdapter(mealsRCAdapter);
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mealsRC.setLayoutManager(gridLayoutManager);
@@ -116,14 +119,38 @@ public class MealsFragment extends Fragment implements MealsView{
     public void showMealsByIngredients(Meals result) {
         MealsRCAdapter mealsRCAdapter = new MealsRCAdapter(getContext() ,result.getMeals());
         // mealsRCAdapter.getMealsFromLocal(mealsPresenter.getFromLocal());
-
+        mealsRCAdapter.setOnItemClickListener(meal -> onMealClick(meal));
         mealsRC.setAdapter(mealsRCAdapter);
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mealsRC.setLayoutManager(gridLayoutManager);
+
+    }
+
+    @Override
+    public void showMealDetails(Meals result) {
+
     }
 
     @Override
     public void showSavedMeals(LiveData<List<Meal>> meals) {
+
+    }
+
+    public void onMealClick(Meal meal) {
+        Log.i("TAG", "onIngredientClick: " + meal.getIdMeal());
+        String mealId = meal.getIdMeal();
+        // Handle item click here, e.g., show details, navigate to another screen, etc.
+        MealDetailsFragment mealFragment = new MealDetailsFragment();
+        // Pass any necessary data to the MealsFragment using arguments
+        Bundle bundle = new Bundle();
+        bundle.putString("mealName", mealId);
+        bundle.putString("filterType","meal");
+        mealFragment.setArguments(bundle);
+        // Replace the current fragment with the MealsFragment
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.appFragmentContainer, mealFragment);
+        transaction.addToBackStack(null); // Optional: Add the transaction to the back stack
+        transaction.commit();
 
     }
 }

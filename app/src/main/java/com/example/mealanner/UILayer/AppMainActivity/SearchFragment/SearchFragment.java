@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -36,7 +37,9 @@ import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.Presenter.Home
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.CategoriesRCAdapter;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.CountriesRCAdapter;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.View.HomeView;
+import com.example.mealanner.UILayer.AppMainActivity.MealDetailsFragment.View.MealDetailsFragment;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.Presenter.MealsPresenter;
+import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsFragment;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsRCAdapter;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsView;
 import com.google.android.material.chip.Chip;
@@ -183,11 +186,12 @@ public class SearchFragment extends Fragment implements NetworkCallBack, HomeVie
     public void showIngredients(Ingrediants result) {
         ingredientsRCAdapter = new IngredientsRCAdapter(getContext() ,result.getMeals());
         Log.i("TAG", "showIngredients: "+result.getMeals().get(0).getStrIngredient().toString());
-        ingredientsRCAdapter.setOnItemClickListener(ingrediant -> onIngredientClick(ingrediant));
+        ingredientsRCAdapter.setOnIitemClickListener(ingrediant -> onIngredientClick(ingrediant));
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         searchRC.setLayoutManager(gridLayoutManager);
         localIngredients = result;
     }
+
 
     public void onCategoryClick(Category category) {
         mealsPresenter.getMealsByCategories(category.getStrCategory());
@@ -202,6 +206,23 @@ public class SearchFragment extends Fragment implements NetworkCallBack, HomeVie
         mealsPresenter.getMealsByIngredient(ingrediant.getStrIngredient());
 
     }
+    public void onMealClick(Meal meal) {
+        Log.i("TAG", "onIngredientClick: " + meal.getIdMeal());
+        String mealId = meal.getIdMeal();
+        // Handle item click here, e.g., show details, navigate to another screen, etc.
+        MealDetailsFragment mealFragment = new MealDetailsFragment();
+        // Pass any necessary data to the MealsFragment using arguments
+        Bundle bundle = new Bundle();
+        bundle.putString("mealName", mealId);
+        bundle.putString("filterType","meal");
+        mealFragment.setArguments(bundle);
+        // Replace the current fragment with the MealsFragment
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.appFragmentContainer, mealFragment);
+        transaction.addToBackStack(null); // Optional: Add the transaction to the back stack
+        transaction.commit();
+
+    }
     private void updateRecyclerViewWithMealsAdapter(RecyclerView.Adapter adapter) {
         searchRC.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -212,6 +233,7 @@ public class SearchFragment extends Fragment implements NetworkCallBack, HomeVie
     @Override
     public void showMealsByCategory(Meals result) {
         mealsRCAdapter = new MealsRCAdapter(getContext(), result.getMeals());
+        mealsRCAdapter.setOnItemClickListener(meal -> onMealClick(meal));
         updateRecyclerViewWithMealsAdapter(mealsRCAdapter);
 
 
@@ -220,6 +242,7 @@ public class SearchFragment extends Fragment implements NetworkCallBack, HomeVie
     @Override
     public void showMealsByCountry(Meals result) {
         mealsRCAdapter = new MealsRCAdapter(getContext() ,result.getMeals());
+        mealsRCAdapter.setOnItemClickListener(meal -> onMealClick(meal));
         updateRecyclerViewWithMealsAdapter(mealsRCAdapter);
 
     }
@@ -227,8 +250,20 @@ public class SearchFragment extends Fragment implements NetworkCallBack, HomeVie
     @Override
     public void showMealsByIngredients(Meals result) {
         mealsRCAdapter = new MealsRCAdapter(getContext() ,result.getMeals());
+        mealsRCAdapter.setOnItemClickListener(meal -> onMealClick(meal));
         updateRecyclerViewWithMealsAdapter(mealsRCAdapter);
     }
+    @Override
+    public void showMealDetails(Meals result) {
+        //mealsRCAdapter = new MealsRCAdapter(getContext() ,result.getMeals());
+       // Log.i("TAG", "showIngredients: "+result.getMeals().get(0).getIdMeal().toString());
+        //mealsRCAdapter.setOnItemClickListener(meal -> onMealClick(meal));
+
+        ///////////////////////////////
+
+    }
+
+
 
     @Override
     public void showSavedMeals(LiveData<List<Meal>> meals) {

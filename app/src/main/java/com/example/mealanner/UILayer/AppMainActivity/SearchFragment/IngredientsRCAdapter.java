@@ -39,13 +39,13 @@ public class IngredientsRCAdapter extends RecyclerView.Adapter<IngredientsRCAdap
     private List<Ingrediant> mealsFromLocal;
     MealsPresenter mealsPresenter;
     RepositoryImpl repository;
-    private OnIngItemClickListener onItemClickListener;
-    public void setOnItemClickListener(OnIngItemClickListener listener) {
-        Log.i("TAG", "setOnItemClicvvvvvvvvvvvkListener: ");
-        this.onItemClickListener = listener;
-    }
-    public interface OnIngItemClickListener {
+    private OnnItemClickListener onnItemClickListener;
+    public void setOnIitemClickListener(OnnItemClickListener listener) {
 
+        this.onnItemClickListener = listener;
+    }
+
+    public interface OnnItemClickListener {
         void onItemClick(Ingrediant ingrediant);
     }
 
@@ -75,6 +75,7 @@ public class IngredientsRCAdapter extends RecyclerView.Adapter<IngredientsRCAdap
             holder.mealName.setText(mealName);
         }
             holder.favBtn.setVisibility(View.INVISIBLE);
+
 
         /*if(mealsFromLocal.size() != 0) {
             for (int i = 0; i < mealsFromLocal.size(); i++) {
@@ -109,6 +110,7 @@ public class IngredientsRCAdapter extends RecyclerView.Adapter<IngredientsRCAdap
             mealName = itemView.findViewById(R.id.mealNameTV);
             mealImage = itemView.findViewById(R.id.mealImageView);
             favBtn = itemView.findViewById(R.id.addmealToFavimageBtn);
+            itemView.setOnClickListener(this);
 
         }
 
@@ -116,8 +118,8 @@ public class IngredientsRCAdapter extends RecyclerView.Adapter<IngredientsRCAdap
 
         @Override
         public void onClick(View v) {
-            if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(ingrediants.get(getAdapterPosition()));
+            if (onnItemClickListener != null) {
+                onnItemClickListener.onItemClick(ingrediants.get(getAdapterPosition()));
             }
         }
     }

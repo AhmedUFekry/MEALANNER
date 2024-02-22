@@ -38,7 +38,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTube
 import java.net.URI;
 import java.net.URL;
 
-public class MealDetailsFragment extends Fragment implements NetworkCallBack , MealDetails {
+public class MealDetailsFragment extends Fragment implements NetworkCallBack , MealDetails  {
     ImageView mealImageView;
     TextView mealTextView;
     ImageButton addToFavBtn;
@@ -49,6 +49,7 @@ public class MealDetailsFragment extends Fragment implements NetworkCallBack , M
     RepositoryImpl repository;
     IngredientsRCAdapter ingredientsRCAdapter;
     MealDetailsPresenter mealDetailsPresenter;
+    String filterId;
 
 
 
@@ -86,7 +87,11 @@ public class MealDetailsFragment extends Fragment implements NetworkCallBack , M
         mealVideoView = view.findViewById(R.id.mealVideoView);
         repository = RepositoryImpl.getInstance(RemoteDataSourceImpl.getInstance(Void.class), LocalDataSourceImpl.getInstance(getContext().getApplicationContext()));
         mealDetailsPresenter = new MealDetailsPresenter(repository , MealDetailsFragment.this);
-        mealDetailsPresenter.getSpecificMeal("52772");
+        //mealDetailsPresenter.getSpecificMeal("52772");
+        if (getArguments() != null) {
+            filterId = getArguments().getString("mealName");
+            mealDetailsPresenter.getSpecificMeal(filterId);
+        }
 
     }
 

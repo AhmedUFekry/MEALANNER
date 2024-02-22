@@ -24,6 +24,7 @@ import com.example.mealanner.DataLayer.Model.DataModels.Category;
 import com.example.mealanner.DataLayer.Model.DataModels.Countries;
 import com.example.mealanner.DataLayer.Model.DataModels.Country;
 import com.example.mealanner.DataLayer.Model.DataModels.Ingrediants;
+import com.example.mealanner.DataLayer.Model.DataModels.Meal;
 import com.example.mealanner.DataLayer.Model.DataModels.Meals;
 import com.example.mealanner.DataLayer.Model.Services.Local.LocalDataSourceImpl;
 import com.example.mealanner.DataLayer.Model.Services.Remote.NetworkCallBack;
@@ -32,6 +33,7 @@ import com.example.mealanner.DataLayer.Model.Services.Remote.Repository;
 import com.example.mealanner.DataLayer.Model.Services.Remote.RepositoryImpl;
 import com.example.mealanner.R;
 import com.example.mealanner.UILayer.AppMainActivity.HomeFragment.Presenter.HomePresenter;
+import com.example.mealanner.UILayer.AppMainActivity.MealDetailsFragment.View.MealDetailsFragment;
 import com.example.mealanner.UILayer.AppMainActivity.MealsFragment.View.MealsFragment;
 
 public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
@@ -84,6 +86,8 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
         isSaved = false;
 
 
+
+
     }
 
 
@@ -116,6 +120,13 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
                     homePresenter.deleteFromLocal(result.getMeals().get(0));
                     Log.i("TAG", "removed from local: " + result.getMeals().get(0).getStrMeal());
                 }
+            }
+        });
+
+        randomMealImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onMealClick(result.getMeals().get(0));
             }
         });
     }
@@ -170,6 +181,28 @@ public class HomeFragment extends Fragment implements NetworkCallBack,HomeView {
 
     @Override
     public void showIngredients(Ingrediants result) {
+
+    }
+
+    @Override
+    public void showMealDetails(Meals result) {
+
+    }
+    public void onMealClick(Meal meal) {
+        Log.i("TAG", "onIngredientClick: " + meal.getIdMeal());
+        String mealId = meal.getIdMeal();
+        // Handle item click here, e.g., show details, navigate to another screen, etc.
+        MealDetailsFragment mealFragment = new MealDetailsFragment();
+        // Pass any necessary data to the MealsFragment using arguments
+        Bundle bundle = new Bundle();
+        bundle.putString("mealName", mealId);
+        bundle.putString("filterType","meal");
+        mealFragment.setArguments(bundle);
+        // Replace the current fragment with the MealsFragment
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.appFragmentContainer, mealFragment);
+        transaction.addToBackStack(null); // Optional: Add the transaction to the back stack
+        transaction.commit();
 
     }
 }

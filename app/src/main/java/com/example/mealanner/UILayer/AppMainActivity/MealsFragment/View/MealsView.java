@@ -11,6 +11,7 @@ public interface MealsView {
     void showMealsByCategory(Meals result);
     void showMealsByCountry(Meals result);
     void showMealsByIngredients(Meals result);
+    void showMealDetails(Meals result);
 
 
     void showSavedMeals(LiveData<List<Meal>> meals);

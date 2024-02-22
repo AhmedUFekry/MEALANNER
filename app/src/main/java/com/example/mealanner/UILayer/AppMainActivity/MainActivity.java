@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NetworkCallBack {
             public Unit invoke(MeowBottomNavigation.Model model) {
                 Fragment fragment = new HomeFragment();
                 if(model.getId() == 1) {
-                    fragment = new MealDetailsFragment();
+                    fragment = new HomeFragment();
                     bottomNavigation.show(HOME, true);
                 }else if (model.getId() == 2) {
                     bottomNavigation.show(SEARCHE, true);
